@@ -1,19 +1,36 @@
 <!doctype html>
 <html lang="zh-CN">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>把星星送回家 · 短片</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#142235;color:#f5e2c3;font-family:system-ui,sans-serif;text-align:center;padding:24px 16px}h1{font-size:24px;margin:0 0 8px}p{color:#afc1d7;font-size:14px}video{display:block;margin:20px auto;width:auto;max-width:100%;height:76vh;max-height:960px;background:#000;border-radius:12px;box-shadow:0 12px 50px #0006}#error{max-width:480px;margin:auto;color:#ffd6ad}
+*{box-sizing:border-box}body{margin:0;background:#142235;color:#f5e2c3;font-family:system-ui,sans-serif;text-align:center;padding:24px 16px}h1{font-size:24px;margin:0 0 8px}p{color:#afc1d7;font-size:14px}video{display:block;margin:20px auto;width:auto;max-width:100%;height:72vh;height:72svh;max-height:960px;background:#000;border-radius:12px;box-shadow:0 12px 50px #0006}#status{max-width:480px;margin:auto;min-height:24px;color:#ffd6ad}button{padding:9px 18px;border:1px solid #8297ae;border-radius:8px;color:#f5e2c3;background:#263c55;cursor:pointer}button:focus-visible,video:focus-visible{outline:3px solid #f5cf8c;outline-offset:4px}
 </style>
+</head>
+<body><main>
 <h1>把星星送回家</h1>
 <p>42 秒原创动态绘本 · 点击播放，开启声音</p>
-<video id="film" controls playsinline preload="metadata" poster="video/poster.jpg">
+<video id="film" aria-label="把星星送回家，42秒短片" tabindex="0" controls playsinline preload="metadata" poster="video/poster.jpg">
 <source src="video/bring_the_star_home.mp4" type="video/mp4">
 你的浏览器不支持 HTML5 视频播放。
 </video>
-<p id="error" role="status"></p>
+<p id="status" role="status" aria-live="polite">正在加载视频…</p>
+<button id="retry" hidden>重新加载</button>
+</main>
 <script>
-document.querySelector('video source').addEventListener('error',()=>{document.getElementById('error').textContent='视频暂未加载成功，请检查网络后刷新页面。'});
+const film=document.getElementById('film');
+const status=document.getElementById('status');
+const retry=document.getElementById('retry');
+function failed(){status.textContent='视频加载失败，请检查网络后重试。';retry.hidden=false;}
+film.addEventListener('loadedmetadata',()=>{status.textContent='点击画面中的播放按钮即可观看';retry.hidden=true;});
+film.addEventListener('playing',()=>status.textContent='正在播放');
+film.addEventListener('pause',()=>{if(!film.ended)status.textContent='已暂停';});
+film.addEventListener('waiting',()=>status.textContent='正在缓冲…');
+film.addEventListener('ended',()=>status.textContent='播放结束，可以再次播放');
+film.addEventListener('error',failed);
+document.querySelector('video source').addEventListener('error',failed);
+retry.addEventListener('click',()=>{status.textContent='正在重新加载…';retry.hidden=true;film.load();});
 </script>
+</body>
 </html>
