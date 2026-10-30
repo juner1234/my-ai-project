@@ -1,5 +1,13 @@
 # 新版声音素材
 
+## 第六版配乐：Reverie
+
+- 用户上传文件：`sb_reverie.mp3`。文件标签标注曲名 `Reverie`、作者 `Scott Buckley`、年份 `2020`、专辑/来源 `www.scottbuckley.com.au/library`，全长约 223.7 秒。
+- 第六版使用开头 0–42 秒连续节选，1.8 秒淡入、4.2 秒淡出；调整音乐与场景音效的平衡、关键事件处轻微压低音乐并统一成片响度。
+- 作者音乐库：https://www.scottbuckley.com.au/library/ 。曲目原先选定的作品页：https://www.scottbuckley.com.au/library/reverie/ 。本环境对官网请求仍被拦截；未独立核验该曲具体授权页面，不把文件标签当作授权证据。
+- 播放器和视频元数据保留作者、曲名、来源及节选/混音说明。用户上传的完整原曲存放于工作区附件目录，不单独上传到公开仓库。
+- 第六版无 MDN lo-fi 循环。下面的 MDN 素材说明仅适用于历史第二版。
+
 ## 现成音乐
 
 - 素材：`rnb-lofi-melody-loop.wav`，7.5 秒立体声旋律循环，重复编排至 42 秒。

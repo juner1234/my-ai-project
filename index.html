@@ -12,14 +12,15 @@
 <h1>把星星送回家</h1>
 <p>42 秒原创动态绘本 · 点击播放，开启声音</p>
 <label for="edition">观看版本：</label>
-<select id="edition"><option value="v5">第五版 · 回归第二版构图</option><option value="v2">第二版 · 构图对比</option><option value="v4">第四版 · 对比观看</option><option value="v3">第三版 · 对比观看</option></select>
-<video id="film" aria-label="把星星送回家，42秒短片" tabindex="0" controls playsinline preload="metadata" poster="video/poster_v5.jpg">
-<source src="video/bring_the_star_home_v5.mp4" type="video/mp4">
+<select id="edition"><option value="v6">第六版 · Reverie 配乐版</option><option value="v5">第五版 · 无配乐对比</option><option value="v2">第二版 · 构图对比</option><option value="v4">第四版 · 对比观看</option><option value="v3">第三版 · 对比观看</option></select>
+<video id="film" aria-label="把星星送回家，42秒短片" tabindex="0" controls playsinline preload="metadata" poster="video/poster_v6.jpg">
+<source src="video/bring_the_star_home_v6.mp4" type="video/mp4">
 你的浏览器不支持 HTML5 视频播放。
 </video>
 <p id="status" role="status" aria-live="polite">正在加载视频…</p>
 <button id="retry" hidden>重新加载</button>
-<p class="note" id="edition-note">第五版：以第二版六幕构图与人物占比为基准，更新人物细节与字幕。当前仅含环境音与音效；已选配乐《Reverie》尚未加入。</p>
+<p class="note" id="edition-note">第六版：第五版画面搭配《Reverie》，保留环境音与情节音效。</p>
+<p class="note">第六版配乐：Reverie — Scott Buckley<br><a style="color:#d6bd91" href="https://www.scottbuckley.com.au/library/" target="_blank" rel="noopener noreferrer">作者音乐库</a> · 节选、淡入淡出及混音</p>
 </main>
 <script>
 const film=document.getElementById('film');
@@ -39,7 +40,7 @@ document.getElementById('edition').addEventListener('change',event=>{
   film.pause();
   film.poster=`video/poster_${version}.jpg`;
   document.querySelector('video source').src=`video/bring_the_star_home_${version}.mp4`;
-  const notes={v5:'第五版：以第二版六幕构图与人物占比为基准，更新人物细节与字幕。当前仅含环境音与音效；已选配乐《Reverie》尚未加入。',v4:'第四版：调整捧星星与电车两幕的人物比例，保留其他景别。当前仅含环境音与音效；已选配乐《Reverie》尚未加入。',v3:'第三版：新角色、书页式字幕与柔和光效。当前为画面预览，仅含环境音与音效；已选配乐《Reverie》尚未加入。',v2:'第二版：原角色与 lo-fi 配乐，供对比观看。'};
+  const notes={v6:'第六版：第五版画面搭配《Reverie》，保留环境音与情节音效。',v5:'第五版：以第二版六幕构图与人物占比为基准，更新人物细节与字幕。当前仅含环境音与音效；已选配乐《Reverie》尚未加入。',v4:'第四版：调整捧星星与电车两幕的人物比例，保留其他景别。当前仅含环境音与音效；已选配乐《Reverie》尚未加入。',v3:'第三版：新角色、书页式字幕与柔和光效。当前为画面预览，仅含环境音与音效；已选配乐《Reverie》尚未加入。',v2:'第二版：原角色与 lo-fi 配乐，供对比观看。'};
   document.getElementById('edition-note').textContent=notes[version];
   status.textContent='正在切换版本…';retry.hidden=true;film.load();
 });
