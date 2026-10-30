@@ -56,6 +56,9 @@ for t in [8.2,14.4,21.4,35.2]:
     music_env-=.18*np.exp(-((q-t)/.8)**2)
 mix=music*music_env[:,None]+sfx
 fade=np.minimum(1,q/1.5)*np.minimum(1,(42-q)/3)
+with wave.open(str(ROOT/'video/audio/scene_effects.wav'),'wb') as f:
+    f.setnchannels(2);f.setsampwidth(2);f.setframerate(SR)
+    f.writeframes((np.clip(sfx*fade[:,None]*2,-.9,.9)*32767).astype('<i2').tobytes())
 mix*=fade[:,None]
 peak=np.max(np.abs(mix))
 if peak>.88:mix*=.88/peak

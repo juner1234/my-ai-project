@@ -1,5 +1,23 @@
 # 把星星送回家
 
+## 第三版画面审阅
+
+`bring_the_star_home_v3.mp4`：新版栗棕卷发、轻微忧郁面容的女孩贯穿六幕，保留红色冬装、水彩纸感与蓝金夜色。底部重排为小章名、动态金线、双行衬线字幕和六幕进度点；文字采用二倍分辨率渲染，淡入时轻微上移，标题固定。增加结尾逐渐增强的暖光，电车场景的雪限制在窗外。
+
+播放器默认第三版，提供第二版对比切换。第三版当前仅含环境音和情节音效，无背景音乐，**不是最终配乐版**。
+
+用户选择 Scott Buckley《Reverie》。当前环境对其官方作品页的请求被代理返回 403，未取得音频或独立核验授权。未用旧 lo-fi 冒充该曲。取得官方音频并核验适用授权后，可重新混音：
+
+```bash
+python3 tools/render_film_v3.py video/storyboard_v3.png --music /path/to/verified-reverie.mp3
+```
+
+当前可重复生成的画面审阅版：
+
+```bash
+python3 tools/render_film_v3.py video/storyboard_v3.png
+```
+
 第二版：42 秒，720 × 1280，30 fps，H.264 / AAC，无对白，中文字幕。
 
 ## 本次调整

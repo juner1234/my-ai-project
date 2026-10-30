@@ -5,19 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>把星星送回家 · 短片</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#142235;color:#f5e2c3;font-family:system-ui,sans-serif;text-align:center;padding:24px 16px}h1{font-size:24px;margin:0 0 8px}p{color:#afc1d7;font-size:14px}video{display:block;margin:20px auto;width:auto;max-width:100%;height:72vh;height:72svh;max-height:960px;background:#000;border-radius:12px;box-shadow:0 12px 50px #0006}#status{max-width:480px;margin:auto;min-height:24px;color:#ffd6ad}button{padding:9px 18px;border:1px solid #8297ae;border-radius:8px;color:#f5e2c3;background:#263c55;cursor:pointer}button:focus-visible,video:focus-visible{outline:3px solid #f5cf8c;outline-offset:4px}
+*{box-sizing:border-box}body{margin:0;background:#142235;color:#f5e2c3;font-family:system-ui,sans-serif;text-align:center;padding:24px 16px}h1{font-size:24px;margin:0 0 8px}p{color:#afc1d7;font-size:14px}video{display:block;margin:20px auto;width:auto;max-width:100%;height:72vh;height:72svh;max-height:960px;background:#000;border-radius:12px;box-shadow:0 12px 50px #0006}#status{max-width:480px;margin:auto;min-height:24px;color:#ffd6ad}button,select{padding:9px 18px;border:1px solid #8297ae;border-radius:8px;color:#f5e2c3;background:#263c55;cursor:pointer}button:focus-visible,video:focus-visible,select:focus-visible{outline:3px solid #f5cf8c;outline-offset:4px}.note{max-width:520px;margin:14px auto;line-height:1.7}
 </style>
 </head>
 <body><main>
 <h1>把星星送回家</h1>
 <p>42 秒原创动态绘本 · 点击播放，开启声音</p>
-<video id="film" aria-label="把星星送回家，42秒短片" tabindex="0" controls playsinline preload="metadata" poster="video/poster_v2.jpg">
-<source src="video/bring_the_star_home_v2.mp4" type="video/mp4">
+<label for="edition">观看版本：</label>
+<select id="edition"><option value="v3">第三版 · 新角色与字幕预览</option><option value="v2">第二版 · 对比观看</option></select>
+<video id="film" aria-label="把星星送回家，42秒短片" tabindex="0" controls playsinline preload="metadata" poster="video/poster_v3.jpg">
+<source src="video/bring_the_star_home_v3.mp4" type="video/mp4">
 你的浏览器不支持 HTML5 视频播放。
 </video>
 <p id="status" role="status" aria-live="polite">正在加载视频…</p>
 <button id="retry" hidden>重新加载</button>
-<p>第二版 · 平稳运镜 / lo-fi 配乐 / 场景音效</p>
+<p class="note" id="edition-note">第三版：新角色、书页式字幕与柔和光效。当前为画面预览，仅含环境音与音效；已选配乐《Reverie》尚未加入。</p>
 </main>
 <script>
 const film=document.getElementById('film');
@@ -32,6 +34,14 @@ film.addEventListener('ended',()=>status.textContent='播放结束，可以再�
 film.addEventListener('error',failed);
 document.querySelector('video source').addEventListener('error',failed);
 retry.addEventListener('click',()=>{status.textContent='正在重新加载…';retry.hidden=true;film.load();});
+document.getElementById('edition').addEventListener('change',event=>{
+  const version=event.target.value;
+  film.pause();
+  film.poster=`video/poster_${version}.jpg`;
+  document.querySelector('video source').src=`video/bring_the_star_home_${version}.mp4`;
+  document.getElementById('edition-note').textContent=version==='v3'?'第三版：新角色、书页式字幕与柔和光效。当前为画面预览，仅含环境音与音效；已选配乐《Reverie》尚未加入。':'第二版：原角色与 lo-fi 配乐，供对比观看。';
+  status.textContent='正在切换版本…';retry.hidden=true;film.load();
+});
 </script>
 </body>
 </html>
