@@ -75,3 +75,15 @@ blender --background --factory-startup --python art/bake_materials.py
 ```
 
 Blender 生成细节模型和程序化材质；随后将材质烘焙为便携贴图，导出供实时端读取的 GLB。当前 Blender 构建不含 OpenImageDenoise，已采用更多采样并关闭不可用的降噪功能，未降低安装验证或绕过文件校验。
+
+## 第二轮造型研究
+
+`art/refine_cottage.py` 在已接入 PBR 的 Blender 源文件上增量细化；重复运行会替换这一轮创建的对象，不累积重复植物。包括有真实开口的侧窗、百叶窗和木框、窗台花箱、弯曲折叠叶片、分层玫瑰与绣球花簇，并清除跨越门洞的藤蔓。细化不会将技术样机标为参考图级成品。
+
+```bash
+blender --background --factory-startup --python art/refine_cottage.py
+```
+
+重新从头生成时依次执行 build_cottage → bake_materials → apply_pbr_materials → refine_cottage，避免生成基础场景时覆盖最终材质/细节。`art/geometry_report.json` 记录此轮网格统计。
+
+Godot 为新叶片与水面接入轻微风动/波纹着色器。headless 验证无法证明 GPU 着色器的画面效果或 Mac 帧率，需在实际图形设备上复核。`index.html` 仅展示静态制作前后对比，不会把图片预览当作可玩的游戏；`material_baseline.jpg` 是已接入材质、未做第二轮造型的对照图。

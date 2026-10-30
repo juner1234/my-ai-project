@@ -22,6 +22,7 @@ func _ready() -> void:
 	assert(packed != null, "Cottage GLB must import before launch")
 	var environment_model = packed.instantiate()
 	add_child(environment_model)
+	_add_garden_motion(environment_model)
 	_add_collisions(environment_model)
 	_group_furniture(environment_model)
 	_add_prop("res://assets/vendor/Lantern.glb", "木灯具", Vector3(-2.7, 0.5, 4.3), 0.7)
@@ -65,6 +66,24 @@ func _create_environment() -> void:
 	glow.light_energy = 2.5
 	glow.omni_range = 7
 	add_child(glow)
+
+func _add_garden_motion(root: Node) -> void:
+	if root is MeshInstance3D and root.mesh != null:
+		var title := str(root.name).to_lower().replace("_", " ")
+		if title.begins_with("detail curved foliage"):
+			for index in root.mesh.get_surface_count():
+				var original = root.get_active_material(index)
+				var moving := ShaderMaterial.new()
+				moving.shader = load("res://scripts/garden_wind.gdshader")
+				if original is StandardMaterial3D:
+					moving.set_shader_parameter("leaf_color", original.albedo_color)
+				root.set_surface_override_material(index, moving)
+		elif title == "pond":
+			var water := ShaderMaterial.new()
+			water.shader = load("res://scripts/pond.gdshader")
+			root.material_override = water
+	for child in root.get_children():
+		_add_garden_motion(child)
 
 func _add_collisions(root: Node) -> void:
 	if root is MeshInstance3D:
