@@ -227,6 +227,9 @@ for mode,elevation,energy,strength,color in modes:
  if scene.get('flower_garden'):
   sys.path.insert(0,str(ROOT/'art'));from photographic_sky import apply as apply_photo_sky
   apply_photo_sky(scene,mode,mix.outputs[0])
+ if scene.get('verdant_foliage'):
+  sys.path.insert(0,str(ROOT/'art'));from greenery_materials import apply as apply_greenery
+  apply_greenery(scene,mode)
  scene.render.filepath=str(ROOT/(f'landscape_study_{mode}.jpg' if '--draft' in sys.argv else f'villa_{mode}.jpg'))
  if mode=='day' and '--draft' not in sys.argv:
   bpy.ops.file.make_paths_relative();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'cottage_source.blend'),compress=True)

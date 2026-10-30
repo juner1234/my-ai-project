@@ -156,3 +156,17 @@ blender --background --factory-startup --python art/render_landscape_overview.py
 `.blend` 默认保存白天并内嵌 HDR 与材质贴图。GLB 导出花朵几何与材质，但 GLB 不保存 Blender World 天空。当前 Godot 实时工程仍使用先前的程序天空，本轮没有交付移动浏览器，也未声称其画面与 Blender 摄影天空一致；后续做移动查看时需统一天空并实测 GPU 画面与性能。
 
 从头重建时，在 landscape_villa 之后追加 flower_garden，再执行 build_villa 与 render_landscape_overview；重新执行旧场景脚本后也需要重跑花园阶段。
+
+## 白天绿植与树冠加密
+
+```bash
+blender --background --factory-startup --python art/refresh_greenery.py
+blender --background --factory-startup --python art/build_villa.py
+blender --background --factory-startup --python art/render_landscape_overview.py
+```
+
+`refresh_greenery.py` 仅加密现有三种乔木的共享叶片网格，保留树干、树木数量、位置、花园和道路。原叶片适度放大，局部补叶采用不同角度和少量位移；没有增加一整排树。网格标记保证重复运行不继续成倍膨胀，叶量记录见 `art/greenery_report.json`。
+
+`greenery_materials.py` 为草地、乔木、藤蔓、苔藓提供较明亮的白天绿调，略增加环境补光以减弱阴影中的黑绿。黄昏/夜景渲染恢复各材质原配色，暖灯参数不改。Blender 源文件与 GLB 默认保存白天材质。复用的网格仍保持共享；用户 M1/8GB 设备上的实际帧率尚未测试，本次不作性能承诺。
+
+当前流程在 flower_garden 之后追加 refresh_greenery，再执行最终 build_villa 和 render_landscape_overview。若重新生成了景观树或基础材质，也要再执行绿植阶段。

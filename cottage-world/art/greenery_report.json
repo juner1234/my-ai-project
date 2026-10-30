@@ -1,0 +1,22 @@
+{
+  "tree_meshes": [
+    {
+      "mesh": "leaves.005 verdant",
+      "leaves_before": 2388,
+      "leaves_after": 4296
+    },
+    {
+      "mesh": "leaves.004 verdant",
+      "leaves_before": 5343,
+      "leaves_after": 9622
+    },
+    {
+      "mesh": "leaves.006 verdant",
+      "leaves_before": 3554,
+      "leaves_after": 6439
+    }
+  ],
+  "daylight_palette": true,
+  "tree_positions_changed": false,
+  "night_palette_preserved": true
+}
