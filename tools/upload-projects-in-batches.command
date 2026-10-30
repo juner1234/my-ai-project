@@ -31,7 +31,20 @@ fi
 echo "分批上传到：${UPLOAD_BRANCH}"
 echo '原项目、本地原提交、当前分支和暂存区保持不变。'
 push_batch() {
+  local EXPECTED REMOTE_STATE REMOTE_COMMIT
+  EXPECTED=$(git rev-parse "refs/heads/${UPLOAD_BRANCH}")
   if ! git -c pack.threads=2 push origin "refs/heads/${UPLOAD_BRANCH}:refs/heads/${UPLOAD_BRANCH}"; then
+    echo '连接返回错误，正在核对 GitHub 是否已经收到本批……'
+    if ! REMOTE_STATE=$(git ls-remote origin "refs/heads/${UPLOAD_BRANCH}"); then
+      if ! REMOTE_STATE=$(GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/juner1234/my-ai-project.git "refs/heads/${UPLOAD_BRANCH}"); then
+        echo '暂时无法核对远端。进度已保留，再次运行同一脚本可继续。'; exit 1
+      fi
+    fi
+    REMOTE_COMMIT=${REMOTE_STATE%%$'\t'*}
+    if [ "${REMOTE_COMMIT}" = "${EXPECTED}" ]; then
+      echo '已核实：GitHub 收到的提交与本批完全一致，继续下一批。'
+      return 0
+    fi
     echo '本批连接中断。已保存进度；再次运行同一脚本即可继续，不要重新提交所有项目。'
     exit 1
   fi
