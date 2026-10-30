@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Lantern",
+    "source": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Lantern/glTF-Binary/Lantern.glb",
+    "bytes": 9564264,
+    "sha256": "a79458c4b02d695187a952f23a63b8bf278e7bc3d316a3c2a314f2d6974181f1"
+  },
+  {
+    "name": "GlassVaseFlowers",
+    "source": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/GlassVaseFlowers/glTF-Binary/GlassVaseFlowers.glb",
+    "bytes": 1819824,
+    "sha256": "faa2e19329961652b585cc62132ef50b1d95dca8a6a2fd63409158e680563761"
+  }
+]
