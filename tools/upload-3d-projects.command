@@ -10,6 +10,12 @@ fi
 if ! git diff --cached --quiet; then
   echo '暂存区已有其他文件，请先保留并处理原有暂存内容。未更改暂存区。'; exit 1
 fi
+if ! REMOTE_COMMIT=$(git rev-parse --verify "refs/remotes/origin/$BRANCH" 2>/dev/null); then
+  echo '尚未读取到远程分支，请先运行同步命令。未提交或上传。'; exit 1
+fi
+if [ "$(git rev-parse HEAD)" != "$REMOTE_COMMIT" ]; then
+  echo '本地与远程提交不一致，暂停以免顺带上传原有本地提交。请将此提示发给助手。'; exit 1
+fi
 TARGETS=(projects/ThreeMotion projects/AnimeWorld projects/merge_garden projects/Gothic-Animation)
 CHECK_LOG=$(mktemp "${TMPDIR:-/tmp}/project-upload-check.XXXXXX")
 trap 'rm -f "$CHECK_LOG"' EXIT
