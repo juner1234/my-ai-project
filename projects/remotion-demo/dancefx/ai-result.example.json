@@ -1,0 +1,17 @@
+{
+  "kind": "dancefx-ai-result",
+  "version": 1,
+  "generatedAt": "2026-10-16T00:00:00.000Z",
+  "nodes": [
+    {
+      "id": "FX-003",
+      "description": "人物右手挥出时，出现蓝色发光丝带，沿绘制的轨迹运动，最后逐渐消散。",
+      "followTarget": "right_wrist",
+      "reason": "描述与画面中右手挥动动作对应",
+      "designProposal": "用粒子系统沿轨迹生成丝带，颜色 #4cc9f0，生命周期约 2s。",
+      "annotations": [
+        { "id": "ann-1792116544198-4866", "description": "丝带的运动路径" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>DanceFX POC · 双源同帧</title>
+<style>
+  body{margin:0;background:#14161b;color:#e9ebf1;font:14px -apple-system,sans-serif}
+  header{padding:10px 14px;background:#20232b;border-bottom:1px solid #363a45}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
+  .pane{background:#000;position:relative;border:1px solid #363a45;border-radius:6px;overflow:hidden}
+  canvas{display:block;width:100%;height:auto}
+  .tag{position:absolute;top:6px;left:8px;background:#000a;padding:2px 8px;border-radius:6px;font-weight:700}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 14px}
+  button{background:#343946;color:#f2f3f8;border:1px solid #515867;padding:6px 10px;border-radius:6px;cursor:pointer}
+  input[type=range]{flex:1;min-width:200px}
+  pre{background:#0f1116;border:1px solid #262a33;border-radius:6px;margin:8px 14px;padding:10px;max-height:34vh;overflow:auto;white-space:pre-wrap}
+  .ok{color:#06d6a0}.bad{color:#ff5d5d}.dim{color:#9aa3b2}
+</style>
+</head>
+<body>
+<header><strong>DanceFX POC</strong> <span class="dim">双源 · 帧编号驱动 · 单一呈现事务</span></header>
+<div class="wrap">
+  <div class="pane"><canvas id="cvL" width="1280" height="720"></canvas><div class="tag">LEFT 原片</div></div>
+  <div class="pane"><canvas id="cvR" width="1280" height="720"></canvas><div class="tag">RIGHT 成片</div></div>
+</div>
+<div class="bar">
+  <button id="play">▶ 播放</button>
+  <button id="prev">⏮ -1</button>
+  <button id="next">+1 ⏭</button>
+  <span>帧</span><input id="frame" type="range" min="0" max="299" value="0">
+  <span id="readout">-</span>
+  <label><input id="aL" type="checkbox" checked> 左声</label>
+  <label><input id="aR" type="checkbox" checked> 右声</label>
+</div>
+<pre id="log"></pre>
+<audio id="audL" loop></audio>
+<audio id="audR" loop></audio>
+<script type="module" src="/poc/main.ts"></script>
+</body>
+</html>

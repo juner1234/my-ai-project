@@ -1,0 +1,13 @@
+# Python virtual environment (never commit)
+.venv/
+venv/
+__pycache__/
+*.pyc
+.Python
+
+# MediaPipe model files (downloaded at runtime, ~30MB each)
+models/*.task
+
+# Intermediate outputs
+previews/*.tmp.mp4
+previews/frames/
