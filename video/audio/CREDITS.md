@@ -1,5 +1,9 @@
 # 新版声音素材
 
+## 第七版
+
+同一用户提供的 Scott Buckley《Reverie》，使用开头 34 秒连续节选。0.7 秒淡入、3.3 秒淡出；原场景音效依据新镜头顺序重排，不拉伸音乐速度。其余来源与署名说明同第六版。
+
 ## 第六版配乐：Reverie
 
 - 用户上传文件：`sb_reverie.mp3`。文件标签标注曲名 `Reverie`、作者 `Scott Buckley`、年份 `2020`、专辑/来源 `www.scottbuckley.com.au/library`，全长约 223.7 秒。

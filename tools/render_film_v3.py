@@ -19,9 +19,12 @@ parser=argparse.ArgumentParser()
 parser.add_argument('sheet')
 parser.add_argument('--stills-only',action='store_true')
 parser.add_argument('--composition-sheet',type=Path,help='Use corrected sheet only for shop and tram shots')
-parser.add_argument('--edition',choices=['v3','v4','v5'],default='v3')
+parser.add_argument('--edition',choices=['v3','v4','v5','v7'],default='v3')
 parser.add_argument('--music',type=Path,help='Verified local Reverie file; otherwise export sound-effects-only visual review')
 args=parser.parse_args()
+SHORT=args.edition=='v7'
+CUTS=[(1,0,3),(0,3,4),(2,7,5),(3,12,7),(4,19,7),(5,26,8)] if SHORT else [(i,i*7,7) for i in range(6)]
+if SHORT: DURATION=34
 sheet=Image.open(args.sheet).convert('RGB')
 correction=Image.open(args.composition_sheet).convert('RGB') if args.composition_sheet else None
 panels=[]
@@ -31,6 +34,8 @@ for i in range(6):
     panels.append(source.crop((x*source.width//3,y*source.height//2,(x+1)*source.width//3,(y+1)*source.height//2)).resize((860,860),Image.Resampling.LANCZOS))
 
 captions=[('暮色落在肩上','她还不想回家'),('她捧起一颗星星','也捧起了一点温暖'),('微光轻轻向前','像是记得归途'),('末班电车穿过雪夜','带着她，也带着一个愿望'),('原来它等的','不是遥远的天空'),('而是一扇窗','和窗后，等它回家的人')]
+if SHORT:
+    captions=[('于是，她跟着','微光出发'),('她捡到一颗','找不到家的星星'),('',''),('',''),('原来，它等的','不是天空'),('而是一扇','等它回家的窗')]
 chapters=['暮色','拾光','寻路','雪夜','归处','灯火']
 font_big=ImageFont.truetype(font_path,34)
 font_second=ImageFont.truetype(font_path,27)
@@ -54,18 +59,21 @@ def camera(idx,u):
         (span/W,0,x,0,span/W,y),resample=Image.Resampling.BICUBIC)
 
 def frame(t):
-    idx=min(5,int(t//7)); u=(t%7)/7
+    order=max(i for i,(_,start,_) in enumerate(CUTS) if start<=t)
+    idx,start,length=CUTS[order]
+    age=t-start
+    u=min(1,age/length)
     ease=u*u*(3-2*u)
     bg=camera(idx,u)
     # Cross-dissolve illustration only, leaving titles and subtitles stable.
-    if idx<5 and u>6.35/7:
-        f=(u*7-6.35)/.65
-        bg=Image.blend(bg,camera(idx+1,0),f*f*(3-2*f))
+    if order<5 and age>length-.65:
+        f=(age-length+.65)/.65
+        bg=Image.blend(bg,camera(CUTS[order+1][0],0),f*f*(3-2*f))
     im=Image.new('RGB',(W,H),(32,48,72))
     im.paste(bg,(0,240))
     layer=Image.new('RGBA',(W,H)); d=ImageDraw.Draw(layer)
     # Floating golden protagonist star and its fading curved trail.
-    if idx in (0,2,4):
+    if idx in ((4,) if SHORT else (0,2,4)):
         sx=170+380*ease; sy=680-115*math.sin(u*math.pi)-idx*14
         if idx==4: sx=360+330*ease; sy=720-280*ease
         for k in range(24):
@@ -109,16 +117,15 @@ def frame(t):
     im=Image.alpha_composite(im.convert('RGBA'),layer).convert('RGB')
     # Fixed header, fine warm frame and a quiet storybook hierarchy.
     dr=ImageDraw.Draw(im)
-    center(dr,51,'把星星送回家',header_font,(243,222,190))
+    center(dr,64 if SHORT else 51,'把星星送回家',font_second if SHORT else header_font,(243,222,190))
     center(dr,116,'A LITTLE LIGHT · A LONG WAY HOME',small,(155,175,193))
     dr.line((46,211,674,211),fill=(102,108,111),width=1)
     # Supersampled text overlay avoids staircase motion during its gentle rise.
     text_layer=Image.new('RGBA',(W*2,610))
     td=ImageDraw.Draw(text_layer)
-    age=u*7
-    enter=min(1,max(0,(age-.25)/1.2))
+    enter=1 if SHORT and order==0 else min(1,max(0,(age-.15)/(.75 if SHORT else 1.2)))
     enter=enter*enter*(3-2*enter)
-    leave=min(1,max(0,(7-age)/.6)) if idx<5 else 1
+    leave=min(1,max(0,(length-age)/.6)) if order<5 else 1
     opacity=int(255*enter*leave)
     def centered_scaled(y,words,f,color,spacing=0):
         ff=ImageFont.truetype(font_path,f*2)
@@ -129,7 +136,7 @@ def frame(t):
             td.text((x,y*2),ch,font=ff,fill=(*color,opacity))
             x+=ww+spacing*2
     yoff=7*(1-enter)
-    centered_scaled(15+yoff,f'{idx+1:02d}  /  '+chapters[idx],16,(194,163,115),3)
+    centered_scaled(15+yoff,f'{order+1:02d}  /  '+chapters[idx],16,(194,163,115),3)
     reveal=140*enter
     td.line(((W/2-reveal)*2,104,(W/2+reveal)*2,104),fill=(194,163,115,int(opacity*.55)),width=1)
     # Small diamond at the divider's center, not busy particles around the text.
@@ -137,28 +144,29 @@ def frame(t):
     td.polygon([(cx,cy-6),(cx+4,cy),(cx,cy+6),(cx-4,cy)],fill=(235,211,166,opacity))
     centered_scaled(76+yoff,captions[idx][0],34,(247,230,203),2)
     centered_scaled(130+yoff,captions[idx][1],27,(200,207,211),1)
-    if idx==5: centered_scaled(206,'每一束微光，都有归处。',17,(194,163,115),2)
+    if idx==5 and (not SHORT or age>=4.7): centered_scaled(206,'每一束微光，都有归处。',17,(194,163,115),2)
     for k in range(6):
         x=(W/2+(k-2.5)*20)*2
-        td.ellipse((x-3,534,x+3,540),fill=(*( (224,195,143) if k==idx else (82,105,126)),210))
+        td.ellipse((x-3,534,x+3,540),fill=(*( (224,195,143) if k==order else (82,105,126)),210))
     text_layer=text_layer.resize((W,305),Image.Resampling.LANCZOS)
     base=im.convert('RGBA');base.alpha_composite(text_layer,(0,975));im=base.convert('RGB')
     # Only the film's opening and ending fade out; scene boundaries never blink.
-    alpha=min(1,t/1.0,(DURATION-t)/1.6)
+    alpha=min(1,(DURATION-t)/(.9 if SHORT else 1.6)) if SHORT else min(1,t/1.0,(DURATION-t)/1.6)
     if alpha<1: im=Image.blend(Image.new('RGB',(W,H),(32,48,72)),im,max(0,alpha))
     return im
 
 # Render stills independently for visual review; no unverified music substitution.
 if args.stills_only:
-    for i in range(6): frame(i*7+3).save(OUT/f'{args.edition}_scene_{i+1:02d}.jpg',quality=94)
-    frame(10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
+    for i,(_,start,length) in enumerate(CUTS): frame(start+length/2).save(OUT/f'{args.edition}_scene_{i+1:02d}.jpg',quality=94)
+    frame(.5 if SHORT else 10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
     sys.exit(0)
 subprocess.run([sys.executable,str(ROOT/'tools/build_soundtrack.py')],check=True)
 audio_path=OUT/'audio/scene_effects.wav'
 if args.music:
     audio_path=OUT/'audio/v3_reverie_mix.wav'
     subprocess.run(['ffmpeg','-y','-v','error','-i',str(args.music),'-i',str(OUT/'audio/scene_effects.wav'),'-filter_complex','[0:a]atrim=duration=42,asetpts=PTS-STARTPTS,afade=t=in:d=2,afade=t=out:st=38:d=4,volume=0.8[m];[m][1:a]amix=inputs=2:duration=longest:normalize=0,loudnorm=I=-18:TP=-1.5:LRA=9','-t','42','-ar','48000',str(audio_path)],check=True)
-cmd=['ffmpeg','-y','-loglevel','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio_path),'-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-ar','48000','-c:a','aac','-b:a','192k','-movflags','+faststart','-shortest',str(OUT/f'bring_the_star_home_{args.edition}.mp4')]
+output=OUT/f'bring_the_star_home_{args.edition}{"_picture" if SHORT else ""}.mp4'
+cmd=['ffmpeg','-y','-loglevel','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio_path),'-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-ar','48000','-c:a','aac','-b:a','192k','-movflags','+faststart','-shortest',str(output)]
 p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
 for k in range(FPS*DURATION):
     im=frame(k/FPS)
@@ -167,5 +175,5 @@ for k in range(FPS*DURATION):
     if k%(FPS*7)==0: print(f'Rendered {k//FPS}/{DURATION}s',flush=True)
 p.stdin.close()
 if p.wait(): raise RuntimeError('ffmpeg encode failed')
-frame(10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
-print(OUT/f'bring_the_star_home_{args.edition}.mp4')
+frame(.5 if SHORT else 10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
+print(output)
