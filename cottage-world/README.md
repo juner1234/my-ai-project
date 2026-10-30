@@ -28,6 +28,8 @@
 
 文件仅保存到 Mac 的 Downloads 下新建的带时间目录，不修改现有项目、Git 分支或密钥。保留官方来源、可用的 MD5 校验及 SHA256 记录，分成小于附件限制的 ZIP 文件，便于上传回聊天。使用前已经过语法和离线 API 数据选择测试；本云环境无法访问该 API，所以没有把端到端下载标成已验证。
 
+下载采用 HTTP/1.1，网络中断自动重试并使用 Range 续传；部分文件和已校验下载缓存位于 `~/Library/Caches/MosslightCottage/materials`。重新运行会复用已完成文件。服务器不接受断点时重下载当前文件；文件大小/官方 MD5 不匹配时不会将其接受为完成。TLS 证书失败仍停止，不使用不安全绕过。
+
 ```bash
 python3 art/download_pbr_on_mac.py --proxy http://127.0.0.1:7900
 ```
