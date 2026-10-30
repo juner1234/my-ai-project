@@ -18,13 +18,17 @@ title=ImageFont.truetype(font_path,48)
 parser=argparse.ArgumentParser()
 parser.add_argument('sheet')
 parser.add_argument('--stills-only',action='store_true')
+parser.add_argument('--composition-sheet',type=Path,help='Use corrected sheet only for shop and tram shots')
+parser.add_argument('--edition',choices=['v3','v4'],default='v3')
 parser.add_argument('--music',type=Path,help='Verified local Reverie file; otherwise export sound-effects-only visual review')
 args=parser.parse_args()
 sheet=Image.open(args.sheet).convert('RGB')
+correction=Image.open(args.composition_sheet).convert('RGB') if args.composition_sheet else None
 panels=[]
 for i in range(6):
     x,y=i%3,i//3
-    panels.append(sheet.crop((x*sheet.width//3,y*sheet.height//2,(x+1)*sheet.width//3,(y+1)*sheet.height//2)).resize((860,860),Image.Resampling.LANCZOS))
+    source=correction if correction is not None and i in (1,3) else sheet
+    panels.append(source.crop((x*source.width//3,y*source.height//2,(x+1)*source.width//3,(y+1)*source.height//2)).resize((860,860),Image.Resampling.LANCZOS))
 
 captions=[('暮色落在肩上','她还不想回家'),('她捧起一颗星星','也捧起了一点温暖'),('微光轻轻向前','像是记得归途'),('末班电车穿过雪夜','带着她，也带着一个愿望'),('原来它等的','不是遥远的天空'),('而是一扇窗','和窗后，等它回家的人')]
 chapters=['暮色','拾光','寻路','雪夜','归处','灯火']
@@ -43,11 +47,11 @@ def camera(idx,u):
     # Sample with floating-point coordinates: never round a camera position.
     ease=u*u*(3-2*u)
     z=1+.035*ease
-    span=W/z
+    span=(820 if correction is not None and idx in (1,3) else W)/z
     x=(860-span)/2+(10 if idx%2 else -10)*(ease-.5)
     y=(860-span)/2-8*ease
     return panels[idx].transform((W,W),Image.Transform.AFFINE,
-        (1/z,0,x,0,1/z,y),resample=Image.Resampling.BICUBIC)
+        (span/W,0,x,0,span/W,y),resample=Image.Resampling.BICUBIC)
 
 def frame(t):
     idx=min(5,int(t//7)); u=(t%7)/7
@@ -89,7 +93,8 @@ def frame(t):
     atmosphere=Image.new('RGBA',(W,H)); ad=ImageDraw.Draw(atmosphere)
     if idx==1:
         strength=int(22+10*math.sin(u*math.pi))
-        ad.ellipse((230,540,550,840),fill=(255,185,65,strength))
+        area=(205,520,420,740) if correction is not None else (230,540,550,840)
+        ad.ellipse(area,fill=(255,185,65,strength))
     elif idx==3:
         shift=int(-240+1000*u)
         ad.polygon([(shift,240),(shift+45,240),(shift-130,960),(shift-220,960)],fill=(189,217,255,16))
@@ -145,22 +150,22 @@ def frame(t):
 
 # Render stills independently for visual review; no unverified music substitution.
 if args.stills_only:
-    for i in range(6): frame(i*7+3).save(OUT/f'v3_scene_{i+1:02d}.jpg',quality=94)
-    frame(10).save(OUT/'poster_v3.jpg',quality=95)
+    for i in range(6): frame(i*7+3).save(OUT/f'{args.edition}_scene_{i+1:02d}.jpg',quality=94)
+    frame(10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
     sys.exit(0)
 subprocess.run([sys.executable,str(ROOT/'tools/build_soundtrack.py')],check=True)
 audio_path=OUT/'audio/scene_effects.wav'
 if args.music:
     audio_path=OUT/'audio/v3_reverie_mix.wav'
     subprocess.run(['ffmpeg','-y','-v','error','-i',str(args.music),'-i',str(OUT/'audio/scene_effects.wav'),'-filter_complex','[0:a]atrim=duration=42,asetpts=PTS-STARTPTS,afade=t=in:d=2,afade=t=out:st=38:d=4,volume=0.8[m];[m][1:a]amix=inputs=2:duration=longest:normalize=0,loudnorm=I=-18:TP=-1.5:LRA=9','-t','42','-ar','48000',str(audio_path)],check=True)
-cmd=['ffmpeg','-y','-loglevel','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio_path),'-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-ar','48000','-c:a','aac','-b:a','192k','-movflags','+faststart','-shortest',str(OUT/'bring_the_star_home_v3.mp4')]
+cmd=['ffmpeg','-y','-loglevel','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio_path),'-c:v','libx264','-preset','fast','-crf','19','-pix_fmt','yuv420p','-ar','48000','-c:a','aac','-b:a','192k','-movflags','+faststart','-shortest',str(OUT/f'bring_the_star_home_{args.edition}.mp4')]
 p=subprocess.Popen(cmd,stdin=subprocess.PIPE)
 for k in range(FPS*DURATION):
     im=frame(k/FPS)
-    if k in [72,240,408,576,744,912]: im.save(OUT/f'v3_preview_{k:04d}.jpg',quality=92)
+    if k in [72,240,408,576,744,912]: im.save(OUT/f'{args.edition}_preview_{k:04d}.jpg',quality=92)
     p.stdin.write(im.tobytes())
     if k%(FPS*7)==0: print(f'Rendered {k//FPS}/{DURATION}s',flush=True)
 p.stdin.close()
 if p.wait(): raise RuntimeError('ffmpeg encode failed')
-frame(38).save(OUT/'poster_v3.jpg',quality=95)
-print(OUT/'bring_the_star_home_v3.mp4')
+frame(10).save(OUT/f'poster_{args.edition}.jpg',quality=95)
+print(OUT/f'bring_the_star_home_{args.edition}.mp4')

@@ -1,5 +1,31 @@
 # 把星星送回家
 
+## 第四版：人物与环境比例
+
+针对捧星星和电车镜头重新构图：女孩与店门、座椅及车窗形成正常尺度参照，增加空间留白。只从修订图中使用第 2、4 格；其余四格继续使用第三版原图，保留不同景别。两处修订镜头减少裁切放大，使用更宽取景。
+
+```bash
+python3 tools/render_film_v3.py video/storyboard_v3.png --composition-sheet video/composition_corrections_v4.png --edition v4
+```
+
+播放器默认第四版，第三版、第二版可切换对比。第四版仍仅含环境音与音效，《Reverie》尚待取得官方音频并核验授权。
+
+### Mac 本地预览
+
+云端推送不会自动更新用户 Mac 文件。每次交付视频修订时，发送下面的安全同步命令和本地地址；不要用网页托管地址代替本地预览：
+
+```bash
+cd /Users/mac/.gemini/antigravity/scratch/my-ai-project &&
+git fetch origin &&
+git switch video/bring-the-star-home &&
+git pull --ff-only origin video/bring-the-star-home &&
+open -a "Google Chrome" index.html
+```
+
+`file:///Users/mac/.gemini/antigravity/scratch/my-ai-project/index.html`
+
+如本地修改使切换或更新失败，保留文件并排查，不强制覆盖。
+
 ## 第三版画面审阅
 
 `bring_the_star_home_v3.mp4`：新版栗棕卷发、轻微忧郁面容的女孩贯穿六幕，保留红色冬装、水彩纸感与蓝金夜色。底部重排为小章名、动态金线、双行衬线字幕和六幕进度点；文字采用二倍分辨率渲染，淡入时轻微上移，标题固定。增加结尾逐渐增强的暖光，电车场景的雪限制在窗外。
