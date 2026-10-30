@@ -1,0 +1,38 @@
+{
+  "name": "three-motion",
+  "version": "0.1.0",
+  "description": "Three.js + React Three Fiber + Remotion 3D animation project",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio",
+    "studio": "remotion studio",
+    "render": "remotion render RotatingCube out/RotatingCube.mp4",
+    "still": "remotion still RotatingCube out/frame.png",
+    "build": "remotion bundle",
+    "view": "node scripts/viewer-server.mjs",
+    "typecheck": "tsc --noEmit",
+    "prompts": "node reference/opus5-5/search.mjs",
+    "prompts:index": "node reference/opus5-5/build-index.mjs",
+    "prompts:viewer": "node reference/opus5-5/viewer/server.mjs",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "9.8.2",
+    "@react-three/postprocessing": "^2.16.2",
+    "@remotion/cli": "4.0.536",
+    "@remotion/three": "4.0.536",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.536",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@types/three": "0.186.0",
+    "typescript": "5.9.3"
+  }
+}
