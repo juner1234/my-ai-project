@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Remotion cache and output
+out/
+.remotion/
+*.mp4
+*.webm
+*.mov
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test art with third-party watermark - do not commit
+public/characters/IMG_5091.JPG
+public/characters/test/
+
+# Env
+.env
+.env.local

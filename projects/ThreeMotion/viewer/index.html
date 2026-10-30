@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bedroom 模型查看器</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #f7eff6;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      }
+      #panel {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.86);
+        border-radius: 14px;
+        padding: 12px 14px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+        color: #5a4a55;
+        font-size: 13px;
+        line-height: 1.7;
+        max-width: 280px;
+      }
+      #panel b {
+        color: #d9648f;
+      }
+      #panel label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+      #status {
+        position: fixed;
+        bottom: 14px;
+        left: 14px;
+        z-index: 10;
+        font-size: 12px;
+        color: #8a7a85;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/addons/": "/node_modules/three/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="panel">
+      <div><b>Bedroom 模型查看器</b></div>
+      <div>左键拖拽：旋转</div>
+      <div>滚轮：缩放</div>
+      <div>右键拖拽：平移</div>
+      <div>双击：自动旋转开/关</div>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 8px 0" />
+      <label><input type="checkbox" id="wire" /> 线框模式</label>
+      <label><input type="checkbox" id="grid" checked /> 显示网格地面</label>
+      <label><input type="checkbox" id="axis" /> 显示坐标轴</label>
+    </div>
+    <div id="status">加载中…</div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+      const status = document.getElementById("status");
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.03;
+      document.body.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color("#f4e9db");
+
+      const camera = new THREE.PerspectiveCamera(
+        42,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        500
+      );
+      camera.position.set(13, 11, 17);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 2.4, 0);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.maxPolarAngle = Math.PI * 0.495;
+
+      // 灯光（暖调温馨 · 日式治愈）
+      scene.add(new THREE.AmbientLight(0xffe9d2, 0.4));
+      const hemi = new THREE.HemisphereLight(0xffe6c8, 0xffd2a4, 0.55);
+      scene.add(hemi);
+      const sun = new THREE.DirectionalLight(0xffd9a8, 0.9);
+      sun.position.set(9, 15, 11);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(2048, 2048);
+      scene.add(sun);
+      // 地面反射暖光：自下而上，增强包裹感
+      const bounce = new THREE.DirectionalLight(0xffcfa0, 0.25);
+      bounce.position.set(-4, -6, 2);
+      scene.add(bounce);
+
+      // 辅助
+      const grid = new THREE.GridHelper(40, 40, 0xe4cdb4, 0xf2e4d3);
+      grid.position.y = -0.02;
+      scene.add(grid);
+      const axes = new THREE.AxesHelper(5);
+      axes.visible = false;
+      scene.add(axes);
+
+      // 加载 GLB
+      const loader = new GLTFLoader();
+      let model = null;
+      let autoRotate = false;
+
+      loader.load(
+        "/out/bedroom-final.glb",
+        (gltf) => {
+          model = gltf.scene;
+          model.traverse((o) => {
+            if (o.isMesh) {
+              o.castShadow = true;
+              o.receiveShadow = true;
+            }
+          });
+          scene.add(model);
+
+          // 自动取景
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const dist = maxDim * 1.5;
+          controls.target.copy(center);
+          camera.position.set(
+            center.x + dist * 0.75,
+            center.y + dist * 0.6,
+            center.z + dist * 0.95
+          );
+          controls.update();
+          status.textContent =
+            "已加载 out/bedroom-final.glb · 网格数 " +
+            countMeshes(model) +
+            " · 尺寸 " +
+            size.x.toFixed(1) +
+            " × " +
+            size.y.toFixed(1) +
+            " × " +
+            size.z.toFixed(1);
+        },
+        (e) => {
+          if (e.total) {
+            status.textContent =
+              "加载中… " + Math.round((e.loaded / e.total) * 100) + "%";
+          }
+        },
+        (err) => {
+          status.textContent = "加载失败：" + err;
+          console.error(err);
+        }
+      );
+
+      function countMeshes(root) {
+        let n = 0;
+        root.traverse((o) => o.isMesh && n++);
+        return n;
+      }
+
+      // 双击切换自动旋转
+      renderer.domElement.addEventListener("dblclick", () => {
+        autoRotate = !autoRotate;
+      });
+
+      document.getElementById("grid").addEventListener("change", (e) => {
+        grid.visible = e.target.checked;
+      });
+      document.getElementById("axis").addEventListener("change", (e) => {
+        axes.visible = e.target.checked;
+      });
+      document.getElementById("wire").addEventListener("change", (e) => {
+        scene.traverse((o) => {
+          if (o.isMesh && o.material) {
+            const mats = Array.isArray(o.material) ? o.material : [o.material];
+            mats.forEach((m) => (m.wireframe = e.target.checked));
+          }
+        });
+      });
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (autoRotate && model) model.rotation.y += 0.004;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+</html>

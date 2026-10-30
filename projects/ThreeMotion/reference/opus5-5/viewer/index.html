@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Opus 5.5 Prompt 语料 · 中英对照</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1>Prompt 语料</h1>
+      <p class="sub">Opus 5.5 视频 · 中英对照<span id="total"></span></p>
+
+      <label class="field">
+        <span>搜索（英文/作者/技术）</span>
+        <input id="q" type="search" placeholder="如 logo / reel / 0xValure" />
+      </label>
+
+      <label class="field">
+        <span>分类</span>
+        <select id="category"><option value="">全部</option></select>
+      </label>
+
+      <label class="field">
+        <span>技术栈</span>
+        <select id="tech"><option value="">全部</option></select>
+      </label>
+
+      <label class="check"><input id="onlyComplete" type="checkbox" checked /> 只看完整 prompt</label>
+      <label class="check"><input id="onlyUnfilled" type="checkbox" /> 只看未填中文对照</label>
+
+      <div class="progress">
+        <div class="bar"><div id="barFill"></div></div>
+        <div class="barLabel" id="barLabel">已填译文 0 / 0</div>
+      </div>
+
+      <div class="actions">
+        <button id="export">导出中英对照 Markdown</button>
+        <button id="aiSettings" class="ghost">AI 翻译设置</button>
+      </div>
+
+      <div id="aiPanel" class="ai-panel hidden">
+        <label class="field"><span>接口地址（OpenAI 兼容）</span><input id="aiBase" placeholder="https://api.openai.com/v1" /></label>
+        <label class="field"><span>模型</span><input id="aiModel" placeholder="gpt-4o-mini" /></label>
+        <label class="field"><span>API Key</span><input id="aiKey" type="password" placeholder="sk-..." /></label>
+        <p class="hint">只保存在浏览器 localStorage，直接由浏览器发请求，不经过本地服务。</p>
+      </div>
+
+      <p class="hint">
+        编辑自动保存到 <code>reference/opus5-5/overrides.json</code>，不改动上游 <code>index.json</code>。
+      </p>
+    </aside>
+
+    <main>
+      <div id="list" class="list"></div>
+      <div id="empty" class="empty hidden">没有匹配的 prompt。</div>
+    </main>
+
+    <div id="toast" class="toast"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
