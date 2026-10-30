@@ -1,4 +1,4 @@
-# 苔光小屋：制作链路与交互验证
+# 苔光别墅：制作链路与交互验证
 
 **状态：技术样机，未达到用户参考图的最终画质，不是美术定稿。**
 
@@ -87,3 +87,19 @@ blender --background --factory-startup --python art/refine_cottage.py
 重新从头生成时依次执行 build_cottage → bake_materials → apply_pbr_materials → refine_cottage，避免生成基础场景时覆盖最终材质/细节。`art/geometry_report.json` 记录此轮网格统计。
 
 Godot 为新叶片与水面接入轻微风动/波纹着色器。headless 验证无法证明 GPU 着色器的画面效果或 Mac 帧率，需在实际图形设备上复核。`index.html` 仅展示静态制作前后对比，不会把图片预览当作可玩的游戏；`material_baseline.jpg` 是已接入材质、未做第二轮造型的对照图。
+
+## 两层别墅与三时段
+
+`art/build_villa.py` 在细化后的 PBR 工程上进行一次结构升级：保留一楼与原材质，将屋顶/山墙抬高，建立二楼真实楼板和楼梯洞口、24 级楼梯、二楼窗、可进入的阳台和花箱。二楼地面高 4.35 米。床移到二楼，家具编辑入口仍保留。
+
+新增混合花带、较高的紫色花穗、低矮雏菊及粉白花朵、阳台花箱与湖边点缀。数量见 `art/villa_report.json`；花多不等于已达到参考图的精细度，当前仍为程序化造型研究。
+
+```bash
+blender --background --factory-startup --python art/build_villa.py
+```
+
+生成 `villa_day.jpg`、`villa_dusk.jpg`、`villa_night.jpg` 三张同机位实际渲染。源 `.blend` 默认保存白天，并内嵌贴图，单独下载源文件也能保留材质。已升级的文件重复运行仅刷新导出与三张渲染，不重复创建楼层。要从零生成，顺序为 build_cottage → bake_materials → apply_pbr_materials → refine_cottage → build_villa；不要在最终别墅上单独重新执行基础细化脚本。
+
+Godot 左上角新增天空选择框，数字键 1/2/3 分别切换蓝天、黄昏和夜景。切换会同步天空渐变/云层/星空、日月光方向和颜色、环境光、雾与暖灯。阶梯使用与可见踏步匹配的平滑碰撞坡面，避免角色被每一级踏步卡住。二楼、阳台与护栏拥有碰撞。
+
+自动验证覆盖上下楼、二楼阳台进出与护栏阻挡、三时段参数与 UI 同步，以及原有进屋/编辑/存档检查。网页时段按钮已在 Chromium 桌面和手机布局中实际点击验证；它展示静态 Blender 渲染，不能行走。Godot 实时天空着色器的 GPU 画面与 Mac 帧率尚未实测。

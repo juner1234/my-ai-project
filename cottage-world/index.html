@@ -1,21 +1,33 @@
 <!doctype html>
 <html lang="zh-CN">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>苔光小屋 · 制作预览</title>
+<title>苔光别墅 · 三种时光</title>
 <style>
-:root{color-scheme:dark;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;background:#141914;color:#e3e5d8}*{box-sizing:border-box}body{margin:0}main{max-width:1160px;margin:auto;padding:52px 24px 36px}.eyebrow{letter-spacing:.22em;color:#adb89d;font-size:12px}h1{font:400 clamp(32px,6vw,56px)/1.3 Georgia,"Songti SC",serif;margin:18px 0}p{color:#b8bfae;line-height:1.85;max-width:750px}.tag{display:inline-block;border:1px solid #45503f;border-radius:30px;padding:7px 13px;font-size:12px;color:#c7cdbb}.gallery{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin:32px 0}figure{margin:0;background:#1d241b;border-radius:8px;overflow:hidden;align-self:start}img{width:100%;height:auto;display:block}figcaption{padding:16px 18px;line-height:1.7;font-size:13px;color:#bac5ad}a{color:#d2d9bc;text-underline-offset:4px}nav{display:flex;gap:22px;flex-wrap:wrap;margin:28px 0;font-size:14px}footer{border-top:1px solid #343f30;margin-top:36px;padding-top:20px;color:#94a08a;font-size:12px;line-height:1.8}@media(max-width:650px){main{padding-top:32px}.gallery{grid-template-columns:1fr}h1{font-size:38px}}
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;background:#151c1b;color:#e7e9df}*{box-sizing:border-box}body{margin:0;transition:background .4s}main{max-width:1160px;margin:auto;padding:36px 24px}.eyebrow{letter-spacing:.22em;color:#a9bdb2;font-size:12px}h1{font:400 clamp(32px,6vw,52px)/1.3 Georgia,"Songti SC",serif;margin:16px 0}p{color:#bac6bc;line-height:1.8;max-width:800px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}button{font:inherit;border:1px solid #4c6056;background:transparent;color:#dce4d7;border-radius:30px;padding:10px 23px;cursor:pointer}button[aria-pressed=true]{background:#d0dabe;color:#202d25;border-color:#d0dabe}button:focus-visible,a:focus-visible{outline:2px solid #f0d28e;outline-offset:4px}figure{margin:0;border-radius:8px;overflow:hidden;background:#0d1416}img{display:block;width:100%;height:auto;max-height:85vh;object-fit:contain}figcaption{padding:15px 20px;color:#aab8ad;font-size:13px;line-height:1.7}.features{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin:22px 0}.features span{border-bottom:1px solid #415448;padding:5px 0;margin-right:12px}a{color:#d8e4c6;text-underline-offset:4px}nav{display:flex;gap:22px;flex-wrap:wrap;margin:28px 0;font-size:14px}footer{border-top:1px solid #34443c;margin-top:30px;padding-top:18px;color:#9cafa2;font-size:13px;line-height:1.8}.note{font-size:13px}#mode-status{color:#aebfae;font-size:13px}@media(max-width:650px){main{padding:25px 16px}button{padding:10px 18px}}
 </style>
 <main>
-<div class="eyebrow">MOSSLIGHT COTTAGE / WORK IN PROGRESS</div>
-<h1>苔光小屋</h1>
-<span class="tag">造型研究 02 · 静态预览</span>
-<p>木纹、灰泥与苔藓石材已接入。正在逐步细化木屋、攀藤与花园，让这个地方成为可以走进去、停下来、重新布置的小世界。</p>
-<div class="gallery">
-<figure><a href="technical_study.jpg"><img src="technical_study.jpg" alt="当前三维场景渲染：带侧窗、窗台花箱、立体藤叶和花丛的小屋"></a><figcaption>当前造型研究 · 点击查看完整渲染图</figcaption></figure>
-<figure><a href="material_baseline.jpg"><img src="material_baseline.jpg" alt="细化前的材质接入版本" loading="lazy"></a><figcaption>上一阶段 · 材质接入后的基础模型</figcaption></figure>
+<div class="eyebrow">MOSSLIGHT VILLA / WORK IN PROGRESS</div>
+<h1>苔光别墅 · 三种时光</h1>
+<p>两层木屋、临花阳台和湖畔花园。选一种光线，看看这个小世界在一天中的不同模样。</p>
+<div class="controls" role="group" aria-label="选择预览时段">
+<button type="button" data-mode="day" aria-pressed="true">蓝天</button><button type="button" data-mode="dusk" aria-pressed="false">黄昏</button><button type="button" data-mode="night" aria-pressed="false">夜景</button>
 </div>
-<p>目前仍未达到参考图的写实细节。正式长发白裙人物、植被与建筑的进一步精修仍在待办中。这一页展示静态渲染；走动、开门和家具编辑在 Godot 工程中运行。</p>
-<nav><a href="assets/cottage_environment.glb" download>下载三维场景 GLB</a><a href="cottage_source.blend" download>下载可编辑 Blender 源文件</a><a href="https://github.com/juner1234/my-ai-project/tree/video/bring-the-star-home/cottage-world">查看工程与运行说明</a></nav>
-<footer>这不是游戏运行窗口。已通过进屋、墙体碰撞、家具编辑与保存的自动检查；尚未验证用户 Mac 上的实时画面与帧率。<br>材质：Poly Haven，CC0；其他素材来源见工程 assets/CREDITS.md。</footer>
+<figure><a id="full-image" href="villa_day.jpg"><img id="scene-image" src="villa_day.jpg" alt="蓝天下的两层森系别墅、阳台花箱和湖畔花园"></a><figcaption id="caption">蓝天 · 点击图片查看完整渲染</figcaption></figure>
+<p id="mode-status" role="status" aria-live="polite"></p>
+<div class="features"><span>两层室内与楼梯</span><span>阳台与花箱</span><span>粉白花丛、紫色花穗与湖边点缀</span><span>三套天空与光照</span></div>
+<p class="note">这里切换的是同一模型的三张 Blender 静态渲染。Godot 工程内也可切换实时天空、阳光、雾色与灯光，并能走上二楼；本网页尚不提供走动。正式人物及参考图级别的写实细节仍未完成。</p>
+<noscript><p>请直接查看：<a href="villa_day.jpg">蓝天图</a> · <a href="villa_dusk.jpg">黄昏图</a> · <a href="villa_night.jpg">夜景图</a></p></noscript>
+<nav><a href="assets/cottage_environment.glb" download>下载三维场景 GLB</a><a href="cottage_source.blend" download>下载可编辑 Blender 源文件</a><a href="https://github.com/juner1234/my-ai-project/tree/video/bring-the-star-home/cottage-world">工程与运行说明</a></nav>
+<footer>Godot 操作：WASD 移动，鼠标转向，E 开门，Tab 编辑家具；天空选择框或数字键 1 / 2 / 3 切换时段。<br>材质：Poly Haven，CC0。其他来源见工程 assets/CREDITS.md。</footer>
 </main>
+<script>
+const labels={day:'蓝天',dusk:'黄昏',night:'夜景'};
+const image=document.querySelector('#scene-image'),link=document.querySelector('#full-image'),caption=document.querySelector('#caption'),status=document.querySelector('#mode-status');
+let pending=0;
+for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>{
+ const mode=button.dataset.mode,ticket=++pending,preload=new Image();status.textContent='正在载入'+labels[mode]+'预览…';
+ preload.onload=()=>{if(ticket!==pending)return;image.src=preload.src;image.alt=labels[mode]+'中的两层森系别墅与花园';link.href='villa_'+mode+'.jpg';caption.textContent=labels[mode]+' · 点击图片查看完整渲染';status.textContent='已切换为'+labels[mode]+'预览';for(const item of document.querySelectorAll('[data-mode]'))item.setAttribute('aria-pressed',String(item===button));};
+ preload.onerror=()=>{if(ticket===pending)status.textContent='图片未能载入，请刷新后重试。';};preload.src='villa_'+mode+'.jpg';
+});
+</script>
 </html>

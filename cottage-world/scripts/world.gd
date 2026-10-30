@@ -14,6 +14,12 @@ var fields: Array[SpinBox] = []
 var refreshing := false
 var testing := false
 var test_drive := Vector3.ZERO
+var environment_settings: Environment
+var sky_material: ShaderMaterial
+var sunlight: DirectionalLight3D
+var garden_lights: Array[OmniLight3D] = []
+var sky_mode := 0
+var sky_picker: OptionButton
 const SAVE_PATH := "user://cottage_layout.json"
 
 func _ready() -> void:
@@ -24,6 +30,7 @@ func _ready() -> void:
 	add_child(environment_model)
 	_add_garden_motion(environment_model)
 	_add_collisions(environment_model)
+	_create_stair_ramp()
 	_group_furniture(environment_model)
 	_add_prop("res://assets/vendor/Lantern.glb", "木灯具", Vector3(-2.7, 0.5, 4.3), 0.7)
 	_add_prop("res://assets/vendor/GlassVaseFlowers.glb", "花瓶", Vector3(1.6, 0.97, -0.2), 0.42)
@@ -38,11 +45,10 @@ func _create_environment() -> void:
 	var world_env := WorldEnvironment.new()
 	var env := Environment.new()
 	var sky := Sky.new()
-	var atmosphere := ProceduralSkyMaterial.new()
-	atmosphere.sky_top_color = Color("8bb0c3")
-	atmosphere.sky_horizon_color = Color("e4dcc8")
-	atmosphere.ground_bottom_color = Color("596048")
-	sky.sky_material = atmosphere
+	sky_material = ShaderMaterial.new()
+	sky_material.shader = load("res://scripts/garden_sky.gdshader")
+	sky.sky_material = sky_material
+	environment_settings = env
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
@@ -54,6 +60,7 @@ func _create_environment() -> void:
 	world_env.environment = env
 	add_child(world_env)
 	var sun := DirectionalLight3D.new()
+	sunlight = sun
 	sun.rotation_degrees = Vector3(-38, -35, 0)
 	sun.light_color = Color("fff0d5")
 	sun.light_energy = 1.6
@@ -66,6 +73,50 @@ func _create_environment() -> void:
 	glow.light_energy = 2.5
 	glow.omni_range = 7
 	add_child(glow)
+	garden_lights.append(glow)
+	for at in [Vector3(-1.95, 2.8, 4.2), Vector3(-0.15, 2.8, 4.2), Vector3(-3, 5.9, 4.9), Vector3(3, 5.9, 4.9), Vector3(0, 6.4, -0.5)]:
+		var lantern := OmniLight3D.new()
+		lantern.position = at
+		lantern.light_color = Color("ffc27a")
+		lantern.omni_range = 5
+		add_child(lantern)
+		garden_lights.append(lantern)
+	_set_sky_mode(0)
+
+func _set_sky_mode(mode: int) -> void:
+	sky_mode = clampi(mode, 0, 2)
+	var tops := [Color("4e8bc1"), Color("626487"), Color("08132c")]
+	var horizons := [Color("d4e4e8"), Color("f3b48c"), Color("283651")]
+	var fogs := [Color("c6d8d7"), Color("b69999"), Color("202b40")]
+	sky_material.set_shader_parameter("top_color", tops[sky_mode])
+	sky_material.set_shader_parameter("horizon_color", horizons[sky_mode])
+	sky_material.set_shader_parameter("ground_color", Color("35432e") if sky_mode == 0 else Color("151e24"))
+	sky_material.set_shader_parameter("cloud_color", Color("f0eeee") if sky_mode == 0 else Color("d6a899"))
+	sky_material.set_shader_parameter("cloud_amount", [0.85, 0.65, 0.12][sky_mode])
+	sky_material.set_shader_parameter("night_amount", 1.0 if sky_mode == 2 else 0.0)
+	sky_material.set_shader_parameter("sun_direction", [Vector3(-0.4, 0.7, -0.5), Vector3(-0.8, 0.12, -0.5), Vector3(0.4, 0.6, -0.5)][sky_mode])
+	sunlight.rotation_degrees = [Vector3(-42, -35, 0), Vector3(-8, -65, 0), Vector3(-38, 35, 0)][sky_mode]
+	sunlight.light_color = [Color("fff0d5"), Color("ffad75"), Color("8aa9e2")][sky_mode]
+	sunlight.light_energy = [1.6, 0.85, 0.18][sky_mode]
+	environment_settings.ambient_light_energy = [0.6, 0.35, 0.18][sky_mode]
+	environment_settings.fog_light_color = fogs[sky_mode]
+	environment_settings.fog_density = [0.005, 0.008, 0.012][sky_mode]
+	for light in garden_lights:
+		light.light_energy = [0.25, 1.4, 2.7][sky_mode]
+	if sky_picker != null: sky_picker.select(sky_mode)
+
+func _create_stair_ramp() -> void:
+	# Smooth walkable collider matches the 24 visible treads in Blender.
+	var body := StaticBody3D.new()
+	body.name = "Interior stair ramp"
+	body.position = Vector3(-3.1, 2.345, 0)
+	body.rotation.x = atan2(3.99, 5.6)
+	var collider := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(1.5, 0.08, sqrt(5.6 * 5.6 + 3.99 * 3.99))
+	collider.shape = shape
+	body.add_child(collider)
+	add_child(body)
 
 func _add_garden_motion(root: Node) -> void:
 	if root is MeshInstance3D and root.mesh != null:
@@ -88,7 +139,7 @@ func _add_garden_motion(root: Node) -> void:
 func _add_collisions(root: Node) -> void:
 	if root is MeshInstance3D:
 		var label_name := str(root.name).to_lower().replace("_", " ")
-		if label_name.begins_with("terrain") or label_name.begins_with("foundation") or label_name.contains("wall") or label_name.begins_with("interior floor"):
+		if label_name.begins_with("terrain") or label_name.begins_with("foundation") or label_name.contains("wall") or label_name.contains("floor") or label_name.contains("handrail") or label_name.contains("spindle") or label_name.contains("stair guard"):
 			root.create_trimesh_collision()
 	for child in root.get_children():
 		_add_collisions(child)
@@ -183,6 +234,8 @@ func _create_player() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode in [KEY_1, KEY_2, KEY_3]:
+			_set_sky_mode(int(event.keycode - KEY_1))
 		if event.keycode == KEY_TAB:
 			edit_mode = not edit_mode
 			inspector.visible = edit_mode
@@ -227,8 +280,19 @@ func _create_ui() -> void:
 	status.text = "点击画面开始观察 · WASD 移动 · 鼠标转向 · 靠近门按 E · Tab 编辑家具 · Esc 释放鼠标"
 	status.position = Vector2(24, 57)
 	layer.add_child(status)
+	var sky_row := HBoxContainer.new()
+	sky_row.position = Vector2(24, 88)
+	layer.add_child(sky_row)
+	var sky_label := Label.new()
+	sky_label.text = "天空与光线  "
+	sky_row.add_child(sky_label)
+	sky_picker = OptionButton.new()
+	for title in ["蓝天 · 1", "黄昏 · 2", "夜景 · 3"]: sky_picker.add_item(title)
+	sky_picker.custom_minimum_size = Vector2(160, 38)
+	sky_picker.item_selected.connect(_set_sky_mode)
+	sky_row.add_child(sky_picker)
 	inspector = PanelContainer.new()
-	inspector.position = Vector2(24, 102)
+	inspector.position = Vector2(24, 146)
 	inspector.custom_minimum_size = Vector2(270, 380)
 	inspector.visible = false
 	layer.add_child(inspector)
@@ -319,5 +383,28 @@ func _self_test() -> void:
 	door_open = true
 	for i in range(155): await get_tree().physics_frame
 	assert(player.position.z < 3.0, "Player could not enter the doorway")
+	# Ascend the real stairwell to the actual upper-floor landing.
+	player.position = Vector3(-3.1, 0.5, 3.05)
+	player.velocity = Vector3.ZERO
+	test_drive = Vector3(0, 0, -1)
+	for i in range(240):
+		await get_tree().physics_frame
+	assert(player.position.y > 4.25 and player.position.z < -2.7, "Stairs did not reach the upper landing")
+	# The stairs must also descend, and the upstairs doorway must reach a guarded balcony.
+	player.velocity = Vector3.ZERO
+	test_drive = Vector3(0, 0, 1)
+	for i in range(240): await get_tree().physics_frame
+	assert(player.position.y < 0.65 and player.position.z > 2.7, "Stairs did not descend to the ground floor")
+	player.position = Vector3(-1.05, 4.5, 2.65)
+	player.velocity = Vector3.ZERO
+	for i in range(100): await get_tree().physics_frame
+	assert(player.position.y > 4.25 and player.position.z > 3.8 and player.position.z < 4.95, "Balcony entry or protective railing failed")
+	for mode in range(3):
+		_set_sky_mode(mode)
+		assert(sky_mode == mode and sky_picker.selected == mode)
+		assert(is_equal_approx(sunlight.light_energy, [1.6, 0.85, 0.18][mode]))
+		assert(is_equal_approx(float(sky_material.get_shader_parameter("night_amount")), 1.0 if mode == 2 else 0.0))
+	_set_sky_mode(0)
+	print("VILLA_SELF_TEST_PASSED: upper floor, stair ascent/descent, guarded balcony and three sky modes")
 	print("COTTAGE_SELF_TEST_PASSED: geometry, props, edit, persistence, wall collision and entry")
 	get_tree().quit()

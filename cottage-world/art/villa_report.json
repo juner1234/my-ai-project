@@ -1,0 +1,12 @@
+{
+  "storeys": 2,
+  "upper_floor_height": 4.35,
+  "stairs": 24,
+  "balcony": true,
+  "garden": {
+    "daisies": 402,
+    "tall_spikes": 226,
+    "balcony_flowers": 96
+  },
+  "final_character": false
+}
