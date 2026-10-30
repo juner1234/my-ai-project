@@ -17,3 +17,7 @@
 - Both user-uploaded material ZIPs have now been received: wood_planks_dirt, painted_plaster_wall and mossy_rock, each with 2k color, OpenGL normal and roughness maps. All nine maps passed recorded SHA256/MD5/size checks and are applied in the Blender source and exported GLB. Cloud source-site access remains blocked; final geometry/vegetation/character quality is still not approved.
 
 - Latest villa request: at least two genuine storeys, a balcony and richer layered flowers. Keep working upper-floor/stairwell/balcony geometry and blue sky/dusk/night controls; preview page currently switches static Blender studies, while Godot switches live lighting. Do not call the preview page a playable game.
+
+# Static site deployment
+
+- Keep the root `.nojekyll` marker: both players are plain HTML. The GitHub Pages Jekyll default build failed with `Is a directory @ apply2files` while generating `video/index.html` from Markdown. Static publishing must bypass Jekyll. Check the public Actions run conclusion before reporting a Pages page as published; a successful Git push alone is insufficient.
