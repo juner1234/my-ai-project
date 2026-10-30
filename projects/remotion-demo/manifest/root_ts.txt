@@ -1,0 +1,11 @@
+=== Root.tsx ===
+import { MyComposition } from "./Composition";
+
+export const RemotionRoot: React.FC = () => {
+  return (
+    <MyComposition
+      prompt={process.env.REMOTION_PROPT || "一只橘猫在草地上奔跑，阳光明媚，电影感"}
+      duration={Number(process.env.REMOTION_DURATION) || 15}
+    />
+  );
+};

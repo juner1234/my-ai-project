@@ -1,0 +1,31 @@
+=== LAST_RENDER_ERROR ===
+Bundling 69%
+Bundling 75%
+Bundling 81%
+Bundling 87%
+Bundling 93%
+Bundling 100%
+
+Error:   × Module build failed (from builtin:swc-loader):
+  ├─▶   ×   x Unterminated regexp literal
+  │     │     ,-[/private/tmp/remotion-demo/src/Composition.tsx:38:1]
+  │     │  35 |       }
+  │     │  36 |     >
+  │     │  37 |       {prompt}
+  │     │  38 |     </div>
+  │     │     :      ^^^^^
+  │     │  39 |   );
+  │     │  40 | }
+  │     │     `----
+  │     │
+  │   
+  ╰─▶   × Syntax Error
+      
+
+undefined
+    at Object.internalBundle (/private/tmp/remotion-demo/node_modules/@remotion/bundler/dist/bundle.js:222:19)
+    at async bundleOnCli (/private/tmp/remotion-demo/node_modules/@remotion/cli/dist/setup-cache.js:153:21)
+    at async bundleOnCliOrTakeServeUrl (/private/tmp/remotion-demo/node_modules/@remotion/cli/dist/setup-cache.js:35:21)
+    at async renderStillFlow (/private/tmp/remotion-demo/node_modules/@remotion/cli/dist/render-flows/still.js:98:53)
+    at async still (/private/tmp/remotion-demo/node_modules/@remotion/cli/dist/still.js:112:5)
+    at async cli (/private/tmp/remotion-demo/node_modules/@remotion/cli/dist/index.js:124:13)

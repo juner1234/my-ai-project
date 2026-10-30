@@ -1,0 +1,13 @@
+=== PROJECT STRUCTURE (filtered) ===
+/tmp/remotion-demo/.gitignore
+/tmp/remotion-demo/.prettierrc
+/tmp/remotion-demo/README.md
+/tmp/remotion-demo/eslint.config.mjs
+/tmp/remotion-demo/out/ChineseVideoComp.mp4
+/tmp/remotion-demo/package-lock.json
+/tmp/remotion-demo/package.json
+/tmp/remotion-demo/remotion.config.ts
+/tmp/remotion-demo/src/Composition.tsx
+/tmp/remotion-demo/src/Root.tsx
+/tmp/remotion-demo/src/index.ts
+/tmp/remotion-demo/tsconfig.json

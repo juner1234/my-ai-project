@@ -1,0 +1,9 @@
+=== NODE_VERSION ===
+v24.21.0
+=== NPM_VERSION ===
+11.19.0
+=== REMOTION_VERSION ===
+    "@remotion/cli": "4.0.535",
+    "react": "19.2.3",
+=== REACT_VERSION ===
+    "react": "19.2.3",
