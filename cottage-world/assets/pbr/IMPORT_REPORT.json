@@ -1,0 +1,95 @@
+{
+  "files": [
+    {
+      "asset": "mossy_rock",
+      "purpose": "moss",
+      "kind": "color",
+      "path": "mossy_rock/color.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_rock/mossy_rock_diff_2k.jpg",
+      "md5_expected": "8e55bbeeef1db0d2d0cae85515812c46",
+      "sha256": "98ecbd1d19953433f5909b79958992b1da2b45addbee772d1d4c27287f368499",
+      "bytes": 4535360
+    },
+    {
+      "asset": "mossy_rock",
+      "purpose": "moss",
+      "kind": "normal",
+      "path": "mossy_rock/normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_rock/mossy_rock_nor_gl_2k.jpg",
+      "md5_expected": "e6b611c8a6f8e3276e7f5491c8e66a0f",
+      "sha256": "78c05b52eb78617fcce4fde7a9ac4872a9725fb2d13aff33248cbdb9c6330563",
+      "bytes": 4033031
+    },
+    {
+      "asset": "mossy_rock",
+      "purpose": "moss",
+      "kind": "roughness",
+      "path": "mossy_rock/roughness.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/mossy_rock/mossy_rock_rough_2k.jpg",
+      "md5_expected": "0b4bbecd6af36e343d05ed11914bb18f",
+      "sha256": "341c4f85e9b350738d30e82e616177316cc5fcbc3e8b5ee9777db47dfc5e6b7a",
+      "bytes": 3205806
+    },
+    {
+      "asset": "painted_plaster_wall",
+      "purpose": "plaster",
+      "kind": "color",
+      "path": "painted_plaster_wall/color.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/painted_plaster_wall/painted_plaster_wall_diff_2k.jpg",
+      "md5_expected": "32f4f4e5ded7d20e55e337004d0d9691",
+      "sha256": "6fd812ed8dd5be1873c29aeef38ce9bf1fb30a22c6d4b3a12db725e98c26a1be",
+      "bytes": 3132937
+    },
+    {
+      "asset": "painted_plaster_wall",
+      "purpose": "plaster",
+      "kind": "normal",
+      "path": "painted_plaster_wall/normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/painted_plaster_wall/painted_plaster_wall_nor_gl_2k.jpg",
+      "md5_expected": "18faf9f7949aefdb3ae7cef7195cba04",
+      "sha256": "2d601a46ed5ce2af866741c53cafa3cba472620c272e633b6484d4de16a80eb1",
+      "bytes": 4048392
+    },
+    {
+      "asset": "painted_plaster_wall",
+      "purpose": "plaster",
+      "kind": "roughness",
+      "path": "painted_plaster_wall/roughness.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/painted_plaster_wall/painted_plaster_wall_rough_2k.jpg",
+      "md5_expected": "7cdd5fbbe56f7becb757fc5b52d11d28",
+      "sha256": "35aad595469533cc3b7cc209cc6c7e065d660211f02c867f4492d3b371b1fee1",
+      "bytes": 1595466
+    },
+    {
+      "asset": "wood_planks_dirt",
+      "purpose": "wood",
+      "kind": "color",
+      "path": "wood_planks_dirt/color.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_planks_dirt/wood_planks_dirt_diff_2k.jpg",
+      "md5_expected": "d462a7bb2ad387b9632203137dc172d7",
+      "sha256": "8ec1517a3f7089486d75baf624a293bcbad69626a1e6e29615fe304897c390ec",
+      "bytes": 3744786
+    },
+    {
+      "asset": "wood_planks_dirt",
+      "purpose": "wood",
+      "kind": "normal",
+      "path": "wood_planks_dirt/normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_planks_dirt/wood_planks_dirt_nor_gl_2k.jpg",
+      "md5_expected": "f89b1f0b3e24b3864f1e892fcdf5968e",
+      "sha256": "08ac9e2dfe774b1f18934116eacab1b3ab6b09fc0be0f8cbcff2ef9bc68acf22",
+      "bytes": 2210797
+    },
+    {
+      "asset": "wood_planks_dirt",
+      "purpose": "wood",
+      "kind": "roughness",
+      "path": "wood_planks_dirt/roughness.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/wood_planks_dirt/wood_planks_dirt_rough_2k.jpg",
+      "md5_expected": "5ba21ed80a87a482516f590901f9308d",
+      "sha256": "d35e8d9b20eab4da8036d98ca38f4fb4dee47ce2b4b0b1e7ab6cd006b0e351ac",
+      "bytes": 2180731
+    }
+  ],
+  "declared_license": "CC0; https://polyhaven.com/license"
+}

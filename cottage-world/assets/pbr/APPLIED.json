@@ -1,0 +1,17 @@
+[
+  {
+    "material": "Old limestone",
+    "asset": "mossy_rock",
+    "purpose": "moss"
+  },
+  {
+    "material": "Limewashed plaster",
+    "asset": "painted_plaster_wall",
+    "purpose": "plaster"
+  },
+  {
+    "material": "Weathered oak",
+    "asset": "wood_planks_dirt",
+    "purpose": "wood"
+  }
+]

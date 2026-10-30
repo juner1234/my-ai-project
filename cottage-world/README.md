@@ -19,7 +19,7 @@
 - 尚无正式长发白裙人物的三维模型、骨骼、头发和服装动画。当前第一人称相机不是最终人物。
 - 这台云环境无可见独立 GPU，Blender 使用 CPU 渲染。Godot 使用 headless 检查功能，不代表已验证实时画质或在用户 Mac 上的帧率。
 - 实时工程当前采用 Compatibility 作为技术验证设置，不代表最终画质配置或引擎已锁定。正式光照和渲染方案需要在可用 GPU 上验证。
-- Poly Haven API 和 ambientCG 官网请求在环境代理处被 403 拦截，不能宣称已下载其高清材质。
+- 云环境仍无法直接访问 Poly Haven API 和 ambientCG。用户已通过 Mac 下载并上传两个素材包，现已收到并校验三套 Poly Haven 2K 材质；不能将这描述为云端官网访问已恢复。
 - Godot 编辑器尝试打开远程调试监听时受沙箱限制；独立 headless 功能测试仍能正常完成。
 
 ## 用 Mac 网络补齐高清材质
@@ -35,6 +35,26 @@ python3 art/download_pbr_on_mac.py --proxy http://127.0.0.1:7900
 ```
 
 拿到真实 PBR 素材后继续替换当前程序材质和精修建筑/植被；纹理下载本身不等于已达到参考图质量。正式人物、骨骼、裙装/头发动画仍需单独制作或取得适用模型。
+
+## 已接入的用户上传材质
+
+两包共九张 2048×2048 贴图（每套颜色、OpenGL 法线、粗糙度）：
+
+| 素材 | 当前应用 |
+| --- | --- |
+| wood_planks_dirt | Weathered oak 木构件 |
+| painted_plaster_wall | Limewashed plaster 墙面 |
+| mossy_rock | Old limestone 石块、石质基础 |
+
+导入时校验包内记录的 SHA256、官方 MD5 记录和字节数；拒绝未声明文件、越界路径、符号链接与损坏文件，校验完成后才写入贴图目录。第一包与第二包合并到 `assets/pbr/IMPORT_REPORT.json`，实际应用到材质的映射见 `assets/pbr/APPLIED.json`。
+
+```bash
+python3 art/import_pbr_pack.py /path/to/cottage_materials_02.zip
+python3 art/import_pbr_pack.py /path/to/cottage_materials_01.zip
+blender --background --factory-startup --python art/apply_pbr_materials.py
+```
+
+已重新生成 `.blend` 和含嵌入贴图的 GLB，并通过 Godot 的几何/道具加载、编辑、存档恢复、墙体阻挡和门洞进入测试。`technical_study.jpg` 仍是技术场景渲染，不是最终美术定稿或最终人物预览。
 
 ## 运行验证
 
