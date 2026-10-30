@@ -17,7 +17,7 @@ void sky() {
     vec3 color = mix(horizon_color.rgb, top_color.rgb, pow(h, 0.55));
     vec2 plane = EYEDIR.xz / max(EYEDIR.y + 0.25, 0.12) * 2.0;
     float clouds = noise2(plane) * 0.57 + noise2(plane * 2.0) * 0.28 + noise2(plane * 4.0) * 0.15;
-    float cover = smoothstep(0.53, 0.76, clouds) * smoothstep(0.0, 0.15, EYEDIR.y) * cloud_amount;
+    float cover = smoothstep(0.42, 0.63, clouds) * smoothstep(0.0, 0.15, EYEDIR.y) * cloud_amount;
     color = mix(color, cloud_color.rgb, cover);
     float sun = smoothstep(0.9993, 0.9998, dot(EYEDIR, normalize(sun_direction)));
     color += vec3(1.0, 0.76, 0.42) * sun * (1.0 - night_amount) * 2.0;

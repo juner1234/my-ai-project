@@ -21,3 +21,5 @@
 # Static site deployment
 
 - Keep the root `.nojekyll` marker: both players are plain HTML. The GitHub Pages Jekyll default build failed with `Is a directory @ apply2files` while generating `video/index.html` from Markdown. Static publishing must bypass Jekyll. Check the public Actions run conclusion before reporting a Pages page as published; a successful Git push alone is insufficient.
+
+- Forest refinement: the user finds the roof/garden too sparse and the terrain/sky disconnected. Prioritize a moss/grass roof, richer woodland layers, visible clouds and soft horizon transitions; preserve the night warm-light mood. Preview images are renders of the actual model, not concept art promising a better later model.

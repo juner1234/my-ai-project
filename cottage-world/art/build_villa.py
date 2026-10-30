@@ -174,7 +174,7 @@ links.new(absolute.outputs[0],height.inputs['Value'])
 gradient=sky_node('ShaderNodeMixRGB','Sky gradient');links.new(height.outputs[0],gradient.inputs[0])
 noise=sky_node('ShaderNodeTexNoise','Cloud texture');noise.inputs['Scale'].default_value=5;noise.inputs['Detail'].default_value=3
 links.new(coords.outputs['Normal'],noise.inputs['Vector'])
-clouds=sky_node('ShaderNodeMapRange','Cloud mask');clouds.inputs['From Min'].default_value=.61;clouds.inputs['From Max'].default_value=.78;clouds.inputs['To Max'].default_value=.55
+clouds=sky_node('ShaderNodeMapRange','Cloud mask');clouds.inputs['From Min'].default_value=.46;clouds.inputs['From Max'].default_value=.63;clouds.inputs['To Max'].default_value=.94
 links.new(noise.outputs['Fac'],clouds.inputs['Value'])
 cloud_mix=sky_node('ShaderNodeMixRGB','Cloud color');links.new(clouds.outputs[0],cloud_mix.inputs[0]);links.new(gradient.outputs[0],cloud_mix.inputs[1])
 voronoi=sky_node('ShaderNodeTexVoronoi','Star positions');voronoi.inputs['Scale'].default_value=160;links.new(coords.outputs['Normal'],voronoi.inputs['Vector'])
@@ -183,9 +183,30 @@ star_mix=sky_node('ShaderNodeMixRGB','Stars');star_mix.blend_type='ADD';links.ne
 backdrop=sky_node('ShaderNodeBackground','Camera sky');backdrop.inputs['Strength'].default_value=.8;links.new(star_mix.outputs[0],backdrop.inputs['Color'])
 camera_ray=sky_node('ShaderNodeLightPath','Camera ray');mix=sky_node('ShaderNodeMixShader','Camera background')
 links.new(camera_ray.outputs['Is Camera Ray'],mix.inputs[0]);links.new(background.outputs[0],mix.inputs[1]);links.new(backdrop.outputs[0],mix.inputs[2]);links.new(mix.outputs[0],nodes.get('World Output').inputs['Surface'])
-modes=[('day',42,2.3,.22,(1,.94,.82)),('dusk',5,.8,.18,(1,.55,.28)),('night',-12,.22,.22,(.42,.56,1))]
+# Depth-based atmospheric perspective joins distant terrain, tree lines and sky.
+if scene.get('forest_garden'):
+ scene.use_nodes=True;scene.view_layers[0].use_pass_mist=True;scene.view_layers[0].use_pass_z=True
+ world.mist_settings.start=32;world.mist_settings.depth=115;world.mist_settings.falloff='QUADRATIC'
+ comp=scene.node_tree;cn=comp.nodes;cl=comp.links
+ for n in list(cn):
+  if n.name.startswith('Forest atmosphere'):cn.remove(n)
+ layers=cn.new('CompositorNodeRLayers');layers.name='Forest atmosphere layers'
+ mist=cn.new('CompositorNodeMixRGB');mist.name='Forest atmosphere mix'
+ geometry_mask=cn.new('CompositorNodeMath');geometry_mask.name='Forest atmosphere geometry mask';geometry_mask.operation='LESS_THAN';geometry_mask.inputs[1].default_value=10000
+ cl.new(layers.outputs['Depth'],geometry_mask.inputs[0])
+ fog_factor=cn.new('CompositorNodeMath');fog_factor.name='Forest atmosphere geometry mist';fog_factor.operation='MULTIPLY'
+ cl.new(layers.outputs['Mist'],fog_factor.inputs[0]);cl.new(geometry_mask.outputs[0],fog_factor.inputs[1])
+ cl.new(fog_factor.outputs[0],mist.inputs[0]);cl.new(layers.outputs['Image'],mist.inputs[1])
+ output=next(n for n in cn if n.type=='COMPOSITE');cl.new(mist.outputs[0],output.inputs[0])
+ scene.cycles.samples=96
+modes=[('day',42,1.7,.30,(1,.96,.87)),('dusk',5,.8,.18,(1,.55,.28)),('night',-12,.22,.22,(.42,.56,1))]
+if '--day-only' in sys.argv:modes=modes[:1]
+if '--remaining-modes' in sys.argv:modes=modes[1:]
 for mode,elevation,energy,strength,color in modes:
  sky.sun_elevation=math.radians(elevation);background.inputs['Strength'].default_value=strength
+ sun.data.angle=math.radians(9 if mode=='day' else 12)
+ if scene.get('forest_garden'):
+  mist.inputs[2].default_value={'day':(.42,.58,.70,1),'dusk':(.43,.30,.33,1),'night':(.025,.045,.085,1)}[mode]
  sun.rotation_euler=(math.radians(90-(38 if mode=='night' else elevation)),math.radians(-20),math.radians(-35));sun.data.energy=energy;sun.data.color=color
  palette={'day':((.55,.75,.93,1),(.10,.36,.74,1),(.9,.95,1,1)),
           'dusk':((.94,.49,.36,1),(.17,.19,.43,1),(.67,.48,.63,1)),

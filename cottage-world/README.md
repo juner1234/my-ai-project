@@ -103,3 +103,16 @@ blender --background --factory-startup --python art/build_villa.py
 Godot 左上角新增天空选择框，数字键 1/2/3 分别切换蓝天、黄昏和夜景。切换会同步天空渐变/云层/星空、日月光方向和颜色、环境光、雾与暖灯。阶梯使用与可见踏步匹配的平滑碰撞坡面，避免角色被每一级踏步卡住。二楼、阳台与护栏拥有碰撞。
 
 自动验证覆盖上下楼、二楼阳台进出与护栏阻挡、三时段参数与 UI 同步，以及原有进屋/编辑/存档检查。网页时段按钮已在 Chromium 桌面和手机布局中实际点击验证；它展示静态 Blender 渲染，不能行走。Godot 实时天空着色器的 GPU 画面与 Mac 帧率尚未实测。
+
+## 林间环境细化
+
+`art/forest_garden.py` 直接修改实际 Blender 场景：增加跟随坡面的立体苔藓床、屋顶低草与垂藤、曲叶阔叶树、灌木和蕨类，并把原本的方形地块接到起伏地形与远景。树木共享三套网格，避免每一棵都重复导出整套几何。统计见 `art/forest_report.json`。
+
+```bash
+blender --background --factory-startup --python art/forest_garden.py
+blender --background --factory-startup --python art/build_villa.py -- --render-only
+```
+
+该脚本可重复执行：替换 `Forest ` 对象，保留别墅、家具和室内结构。先执行 build_villa 创建别墅，之后才运行 forest_garden。从零生成的顺序在原流程最后追加 forest_garden → build_villa（重新导出和渲染）。所有三维植被和地形都在 GLB 与内嵌贴图的 Blender 源文件中；不是只改预览图。
+
+三种时段继续使用同机位。天空云层提高可见度，远处增加基于深度的薄雾合成，使树林、地形与背景过渡柔和；夜晚保留暖色灯具。Godot 端保持三种天空与距离雾，并对新增叶片接入轻微风动。静态渲染和实时画面仍受不同渲染器、设置与设备影响；不会把预览称作独立概念图，也不承诺实际运行会自动更精细。

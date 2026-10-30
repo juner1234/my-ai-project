@@ -121,9 +121,10 @@ func _create_stair_ramp() -> void:
 func _add_garden_motion(root: Node) -> void:
 	if root is MeshInstance3D and root.mesh != null:
 		var title := str(root.name).to_lower().replace("_", " ")
-		if title.begins_with("detail curved foliage"):
+		if title.begins_with("detail curved foliage") or title.begins_with("villa curved foliage") or title.begins_with("forest roof living foliage") or title.begins_with("forest shrub") or title.begins_with("forest fern") or title.begins_with("forest broadleaf") or title.begins_with("forest tree instance"):
 			for index in root.mesh.get_surface_count():
 				var original = root.get_active_material(index)
+				if original != null and str(original.resource_name).begins_with("Woodland bark"): continue
 				var moving := ShaderMaterial.new()
 				moving.shader = load("res://scripts/garden_wind.gdshader")
 				if original is StandardMaterial3D:
