@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://1ottsxf863hy"
-path="res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "b1be2f56dfe0a802e0796a49d0d29c5d"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_weathered_oak_color.png"
-dest_files=["res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.s3tc.ctex", "res://.godot/imported/cottage_environment_weathered_oak_color.png-9ab5360e653f0833971fd8d040ce6876.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

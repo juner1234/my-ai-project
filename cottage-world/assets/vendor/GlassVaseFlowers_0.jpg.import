@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3qh3duvntndt"
-path="res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.ctex"
+path.s3tc="res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.s3tc.ctex"
+path.etc2="res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "23b344001b4434b0549904db922677f9"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/vendor/GlassVaseFlowers_0.jpg"
-dest_files=["res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.ctex"]
+dest_files=["res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.s3tc.ctex", "res://.godot/imported/GlassVaseFlowers_0.jpg-14e08d35f7af7b15996d736090dbc8ea.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

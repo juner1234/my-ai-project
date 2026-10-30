@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cku38xka4cv2t"
-path="res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "fe12c69e1a49272d45f7eae84ed0ce8e"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_old_limestone_normal.png"
-dest_files=["res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.s3tc.ctex", "res://.godot/imported/cottage_environment_old_limestone_normal.png-26fb96e02fa5749ef672d956e355775d.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

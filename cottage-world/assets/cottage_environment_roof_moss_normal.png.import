@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3yu6bsompfm6"
-path="res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "bd2b6bfb776fb4fa6f4c5b17dac8aefd"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_roof_moss_normal.png"
-dest_files=["res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.s3tc.ctex", "res://.godot/imported/cottage_environment_roof_moss_normal.png-904d0c03b5f8c81899e10887620d5d7a.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

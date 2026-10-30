@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://q7prcxadywng"
-path="res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "2f154c410fff83593106b838bceeb4df"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_slate_2_normal.png"
-dest_files=["res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.s3tc.ctex", "res://.godot/imported/cottage_environment_slate_2_normal.png-248b2873fed3d5b60aadad985684449c.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

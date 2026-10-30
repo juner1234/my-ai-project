@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkf0wotc5a8o5"
-path="res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "fe03017c71318897e5877efe76e0dc24"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_garden_soil_normal.png"
-dest_files=["res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.s3tc.ctex", "res://.godot/imported/cottage_environment_garden_soil_normal.png-b4d0bcecae6b3e16cd232b8c16c082c0.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

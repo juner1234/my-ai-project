@@ -170,3 +170,31 @@ blender --background --factory-startup --python art/render_landscape_overview.py
 `greenery_materials.py` 为草地、乔木、藤蔓、苔藓提供较明亮的白天绿调，略增加环境补光以减弱阴影中的黑绿。黄昏/夜景渲染恢复各材质原配色，暖灯参数不改。Blender 源文件与 GLB 默认保存白天材质。复用的网格仍保持共享；用户 M1/8GB 设备上的实际帧率尚未测试，本次不作性能承诺。
 
 当前流程在 flower_garden 之后追加 refresh_greenery，再执行最终 build_villa 和 render_landscape_overview。若重新生成了景观树或基础材质，也要再执行绿植阶段。
+
+
+## Mac M1 探索版 0.1.0
+
+面向 Apple Silicon、macOS 11 及以上的独立 `.app`；不用安装 Godot 或 Blender。
+下载 `downloads/MosslightVilla-Mac-arm64-v0.1.0.zip`，解压后打开“苔光别墅.app”。
+此应用只有 ad-hoc 签名，未获 Apple Developer ID 签名及公证。若被 macOS 拦截，先尝试打开一次，再到“系统设置 → 隐私与安全性”查看并选择“仍要打开”。不需要关闭系统安全保护。
+
+- WASD 移动，鼠标转向，靠近门按 E，空格跳跃。
+- 1/2/3 切换蓝天、黄昏、夜景；Tab 布置家具，Esc 暂停、调整画质、返回入口或退出。
+- 初次默认“均衡”；如果卡顿，尝试“流畅”。“精细”增加阴影范围和远处花草。
+- 设置与家具布局保存在 `~/Library/Application Support/MosslightVilla/`，不写入应用包。
+- 当前为第一人称探索样机。正式白裙人物、精细头发/裙装动画尚未完成，实时画面与本页 Blender 静态渲染不同，未达到参考图最终画质。
+- 合并 1,977 个重复植物节点为 207 个空间分区 MultiMesh；保留高清源素材，实时纹理采用 GPU 压缩与 mipmaps；小灯笼道具运行贴图限制为 1024，原始素材不变。默认 1280×800、60 FPS 上限，均不构成实际帧率承诺。
+- 已检查导出包资源、ARM64 架构、可执行权限、ad-hoc 代码页/资源哈希，以及包内场景的进屋、楼梯上下、阳台护栏、外围移动、家具保存和三时段。尚未在真实 Mac/M1 上运行。
+
+### 重新打包
+
+使用 Godot 4.6.3 和同版本官方 export templates。官方模板仅提供 universal 二进制；跨平台 ARM 导出前，用以下脚本验证完整模板的官方 SHA512，抽取 ARM64 slice 并保持模板资源：
+
+```bash
+python3 art/mac_package.py template /path/to/Godot_v4.6.3-stable_export_templates.tpz --output /path/to/export_templates/4.6.3.stable/macos.zip
+godot --headless --editor --import --quit
+godot --headless --export-release 'Mac M1' /path/to/MosslightVilla-Mac-arm64.zip
+python3 art/mac_package.py validate /path/to/MosslightVilla-Mac-arm64.zip
+```
+
+`export_presets.cfg` 只包含实际运行资源和来源声明，排除 Blender、生成工具和静态预览。发布包需同时带上 Godot LICENSE/COPYRIGHT、Noto OFL 与素材来源说明；不要更改应用内部文件后沿用旧签名。`art/build_ui_font.py` 从系统 Noto Sans CJK SC 生成重命名的字体子集并保留 SIL OFL。

@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "base_commit": "a25e0fe",
+  "artifact": "MosslightVilla-Mac-arm64-v0.1.0.zip",
+  "bytes": 102058701,
+  "sha256": "670f1789f07020de85f786a455de5f58a0333a2116f37b71664b3a44241da965",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "architecture": "arm64",
+  "signature": "ad-hoc, code-page and signed plist/resource hashes verified",
+  "apple_notarized": false,
+  "tested_on_real_mac": false,
+  "functional_test": "exported PCK passed geometry/props/edit/persistence/wall/entry/stairs ascent+descent/balcony guard/outdoor extension/three time modes/pause/three quality levels",
+  "plant_meshes_before": 1977,
+  "plant_batches_after": 207,
+  "visual_check": {
+    "renderer": "Linux Mesa llvmpipe software OpenGL",
+    "quality": "smooth, half resolution for test only",
+    "menu_and_three_modes": "passed",
+    "first_run": "150-second software-render timeout; second run used fewer frames and lower 3D resolution and passed"
+  },
+  "notes": [
+    "First-person exploration study; formal white-dress character pending",
+    "Realtime appearance differs from Blender still renders",
+    "M1 performance and macOS Gatekeeper acceptance require user device test"
+  ]
+}

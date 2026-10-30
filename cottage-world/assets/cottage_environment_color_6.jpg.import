@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cg8btku184wuj"
-path="res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "3e74fff5c00f507344a8798b9cec07bc"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_color_6.jpg"
-dest_files=["res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.s3tc.ctex", "res://.godot/imported/cottage_environment_color_6.jpg-23a9cf142c8492ab3f64ded08ddc7c3f.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

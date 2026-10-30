@@ -20,6 +20,10 @@ var sunlight: DirectionalLight3D
 var garden_lights: Array[OmniLight3D] = []
 var sky_mode := 0
 var sky_picker: OptionButton
+var runtime_session
+var plant_renderers: Array[GeometryInstance3D] = []
+var wind_cache := {}
+var batch_statistics := {}
 const SAVE_PATH := "user://cottage_layout.json"
 
 func _ready() -> void:
@@ -31,6 +35,8 @@ func _ready() -> void:
 	_add_garden_motion(environment_model)
 	_add_collisions(environment_model)
 	_create_stair_ramp()
+	batch_statistics = preload("res://scripts/plant_batches.gd").build(environment_model)
+	plant_renderers = batch_statistics["renderers"]
 	_group_furniture(environment_model)
 	_add_prop("res://assets/vendor/Lantern.glb", "木灯具", Vector3(-2.7, 0.5, 4.3), 0.7)
 	_add_prop("res://assets/vendor/GlassVaseFlowers.glb", "花瓶", Vector3(1.6, 0.97, -0.2), 0.42)
@@ -38,6 +44,9 @@ func _ready() -> void:
 	_create_player()
 	_create_ui()
 	_load_layout(false)
+	runtime_session = preload("res://scripts/play_session.gd").new()
+	add_child(runtime_session)
+	runtime_session.setup(self)
 	if "--self-test" in OS.get_cmdline_user_args():
 		call_deferred("_self_test")
 
@@ -47,11 +56,15 @@ func _create_environment() -> void:
 	var sky := Sky.new()
 	sky_material = ShaderMaterial.new()
 	sky_material.shader = load("res://scripts/garden_sky.gdshader")
+	sky_material.set_shader_parameter("photographic_clouds", load("res://assets/sky/the_sky_is_on_fire_2k.hdr"))
+	sky_material.set_shader_parameter("photographic_enabled", true)
 	sky.sky_material = sky_material
 	environment_settings = env
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color("b7c7d7")
+	env.ambient_light_sky_contribution = 0.0
 	env.ambient_light_energy = 0.6
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.fog_enabled = true
@@ -97,10 +110,12 @@ func _set_sky_mode(mode: int) -> void:
 	sky_material.set_shader_parameter("sun_direction", [Vector3(-0.4, 0.7, -0.5), Vector3(-0.8, 0.12, -0.5), Vector3(0.4, 0.6, -0.5)][sky_mode])
 	sunlight.rotation_degrees = [Vector3(-42, -35, 0), Vector3(-8, -65, 0), Vector3(-38, 35, 0)][sky_mode]
 	sunlight.light_color = [Color("fff0d5"), Color("ffad75"), Color("8aa9e2")][sky_mode]
-	sunlight.light_energy = [1.6, 0.85, 0.18][sky_mode]
-	environment_settings.ambient_light_energy = [0.6, 0.35, 0.18][sky_mode]
+	sunlight.light_energy = [0.9, 0.7, 0.18][sky_mode]
+	environment_settings.ambient_light_energy = [0.28, 0.28, 0.18][sky_mode]
+	environment_settings.fog_sky_affect = [0.12, 0.15, 0.25][sky_mode]
+	environment_settings.tonemap_exposure = [0.85, 0.95, 1.0][sky_mode]
 	environment_settings.fog_light_color = fogs[sky_mode]
-	environment_settings.fog_density = [0.005, 0.008, 0.012][sky_mode]
+	environment_settings.fog_density = [0.0015, 0.004, 0.008][sky_mode]
 	for light in garden_lights:
 		light.light_energy = [0.25, 1.4, 2.7][sky_mode]
 	if sky_picker != null: sky_picker.select(sky_mode)
@@ -125,10 +140,14 @@ func _add_garden_motion(root: Node) -> void:
 			for index in root.mesh.get_surface_count():
 				var original = root.get_active_material(index)
 				if original != null and str(original.resource_name).begins_with("Woodland bark"): continue
-				var moving := ShaderMaterial.new()
-				moving.shader = load("res://scripts/garden_wind.gdshader")
-				if original is StandardMaterial3D:
-					moving.set_shader_parameter("leaf_color", original.albedo_color)
+				var key := str(original.get_instance_id() if original != null else 0)
+				var moving: ShaderMaterial
+				if wind_cache.has(key): moving = wind_cache[key]
+				else:
+					moving = ShaderMaterial.new()
+					moving.shader = load("res://scripts/garden_wind.gdshader")
+					if original is StandardMaterial3D: moving.set_shader_parameter("leaf_color", original.albedo_color)
+					wind_cache[key] = moving
 				root.set_surface_override_material(index, moving)
 		elif title == "pond":
 			var water := ShaderMaterial.new()
@@ -217,7 +236,7 @@ func _create_door() -> void:
 
 func _create_player() -> void:
 	player = CharacterBody3D.new()
-	player.position = Vector3(-1.05, 1, 9)
+	player.position = Vector3(-1.05, 1, 18)
 	player.floor_snap_length = 0.35
 	add_child(player)
 	var collider := CollisionShape3D.new()
@@ -230,10 +249,15 @@ func _create_player() -> void:
 	camera = Camera3D.new()
 	camera.position.y = 1.55
 	camera.fov = 68
+	camera.rotation.x = -0.12
 	player.add_child(camera)
 	camera.current = true
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		runtime_session.toggle_pause()
+		return
+	if runtime_session.paused: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode in [KEY_1, KEY_2, KEY_3]:
 			_set_sky_mode(int(event.keycode - KEY_1))
@@ -241,19 +265,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			edit_mode = not edit_mode
 			inspector.visible = edit_mode
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if edit_mode else Input.MOUSE_MODE_CAPTURED
-		if event.keycode == KEY_ESCAPE:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		if event.keycode == KEY_E and not edit_mode:
 			if player.position.distance_to(door.position) < 4:
 				door_open = not door_open
 	if event is InputEventMouseButton and event.pressed and not edit_mode:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not edit_mode:
-		player.rotate_y(-event.relative.x * 0.0025)
-		camera.rotation.x = clampf(camera.rotation.x - event.relative.y * 0.0025, -1.2, 1.2)
+		player.rotate_y(-event.relative.x * runtime_session.sensitivity)
+		camera.rotation.x = clampf(camera.rotation.x - event.relative.y * runtime_session.sensitivity, -1.2, 1.2)
 
 func _physics_process(delta: float) -> void:
-	if player == null: return
+	if player == null or (runtime_session != null and runtime_session.paused and not testing): return
 	door.rotation.y = lerp_angle(door.rotation.y, deg_to_rad(100) if door_open else 0.0, minf(1, delta * 5))
 	var direction := Vector3.ZERO
 	if testing:
@@ -267,18 +289,18 @@ func _physics_process(delta: float) -> void:
 	if not player.is_on_floor(): player.velocity.y -= 12 * delta
 	elif Input.is_physical_key_pressed(KEY_SPACE) and not edit_mode: player.velocity.y = 4
 	player.move_and_slide()
-	if player.position.y < -5: player.position = Vector3(-1.05, 1, 9)
+	if player.position.y < -5: player.position = Vector3(-1.05, 1, 18)
 
 func _create_ui() -> void:
 	var layer := CanvasLayer.new()
 	add_child(layer)
 	var heading := Label.new()
-	heading.text = "苔光小屋 · 环境与交互样机"
+	heading.text = "苔光别墅 · 探索版"
 	heading.position = Vector2(24, 18)
 	heading.add_theme_font_size_override("font_size", 25)
 	layer.add_child(heading)
 	status = Label.new()
-	status.text = "点击画面开始观察 · WASD 移动 · 鼠标转向 · 靠近门按 E · Tab 编辑家具 · Esc 释放鼠标"
+	status.text = "点击画面开始观察 · WASD 移动 · 鼠标转向 · 靠近门按 E · Tab 编辑家具 · Esc 暂停"
 	status.position = Vector2(24, 57)
 	layer.add_child(status)
 	var sky_row := HBoxContainer.new()
@@ -303,7 +325,7 @@ func _create_ui() -> void:
 	for object in editables: picker.add_item(str(object.name))
 	box.add_child(picker)
 	picker.item_selected.connect(func(index: int): selected_index = index; _refresh_fields())
-	for name_text in ["位置 X", "位置 Y", "位置 Z", "旋转 Y（度）", "整体大小"]:
+	for name_text in ["移动偏移 X", "移动偏移 Y", "移动偏移 Z", "旋转 Y（度）", "整体大小"]:
 		var label := Label.new(); label.text = name_text; box.add_child(label)
 		var field := SpinBox.new(); field.min_value = -20; field.max_value = 20; field.step = 0.1
 		if fields.size() == 3: field.min_value = -180; field.max_value = 180; field.step = 5
@@ -359,6 +381,16 @@ func _load_layout(show_message: bool) -> void:
 
 func _self_test() -> void:
 	testing = true
+	assert(batch_statistics["source_count"] > 1000)
+	assert(batch_statistics["batch_count"] < batch_statistics["source_count"] / 3)
+	for quality in range(3): runtime_session.set_quality(quality)
+	runtime_session.set_quality(1)
+	assert(runtime_session.paused)
+	runtime_session.resume()
+	assert(not runtime_session.paused and not runtime_session.panel.visible)
+	runtime_session.toggle_pause()
+	assert(runtime_session.paused and runtime_session.panel.visible)
+	print("PLANT_BATCH_CHECK_PASSED: ", batch_statistics["source_count"], " meshes -> ", batch_statistics["batch_count"], " batches")
 	assert(editables.size() >= 5)
 	var target := editables[0]
 	var original := target.position
@@ -409,9 +441,15 @@ func _self_test() -> void:
 	for mode in range(3):
 		_set_sky_mode(mode)
 		assert(sky_mode == mode and sky_picker.selected == mode)
-		assert(is_equal_approx(sunlight.light_energy, [1.6, 0.85, 0.18][mode]))
+		assert(is_equal_approx(sunlight.light_energy, [0.9, 0.7, 0.18][mode]))
 		assert(is_equal_approx(float(sky_material.get_shader_parameter("night_amount")), 1.0 if mode == 2 else 0.0))
 	_set_sky_mode(0)
 	print("VILLA_SELF_TEST_PASSED: upper floor, stair ascent/descent, guarded balcony, outdoor extension and three sky modes")
 	print("COTTAGE_SELF_TEST_PASSED: geometry, props, edit, persistence, wall collision and entry")
 	get_tree().quit()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and runtime_session != null and not testing and not runtime_session.paused:
+		runtime_session.toggle_pause()
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and runtime_session != null:
+		runtime_session.close()

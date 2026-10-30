@@ -4,6 +4,8 @@ uniform vec4 horizon_color : source_color = vec4(0.77, 0.85, 0.87, 1.0);
 uniform vec4 ground_color : source_color = vec4(0.22, 0.28, 0.19, 1.0);
 uniform vec4 cloud_color : source_color = vec4(0.94, 0.95, 0.91, 1.0);
 uniform float cloud_amount = 0.5;
+uniform bool photographic_enabled = false;
+uniform sampler2D photographic_clouds : source_color, filter_linear;
 uniform float night_amount = 0.0;
 uniform vec3 sun_direction = vec3(-0.4, 0.7, -0.5);
 float hash21(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -13,6 +15,20 @@ float noise2(vec2 p) {
                mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), f.x), f.y);
 }
 void sky() {
+    if (photographic_enabled && night_amount < 0.5 && EYEDIR.y >= 0.0) {
+        // Crop to the upper sky so no photographed buildings appear when turning.
+        vec3 direction = normalize(EYEDIR + vec3(0.0, 1.3, 0.0));
+        float longitude = atan(-direction.z, direction.x) - 2.2;
+        vec2 uv = vec2(fract(0.5 - longitude / 6.28318530718), 0.5 - asin(direction.y) / 3.14159265359);
+        vec3 photo = texture(photographic_clouds, uv).rgb;
+        float luminance = dot(photo, vec3(0.2126, 0.7152, 0.0722));
+        if (sun_direction.y > 0.4) {
+            float cloud = smoothstep(0.78, 1.85, luminance);
+            COLOR = mix(vec3(0.20, 0.41, 0.67), vec3(0.95, 0.98, 1.0), cloud);
+        } else {
+            COLOR = mix(vec3(luminance), photo, 0.65) * vec3(1.10, 0.93, 0.90) * 0.8;
+        }
+    } else {
     float h = max(EYEDIR.y, 0.0);
     vec3 color = mix(horizon_color.rgb, top_color.rgb, pow(h, 0.55));
     vec2 plane = EYEDIR.xz / max(EYEDIR.y + 0.25, 0.12) * 2.0;
@@ -28,4 +44,5 @@ void sky() {
     float moon = smoothstep(0.99945, 0.9997, dot(EYEDIR, normalize(vec3(0.4, 0.63, -0.55))));
     color += (vec3(0.75, 0.83, 1.0) * stars * 2.4 + vec3(0.8, 0.86, 1.0) * moon * 1.5) * night_amount;
     COLOR = EYEDIR.y < 0.0 ? mix(horizon_color.rgb, ground_color.rgb, min(-EYEDIR.y * 4.0, 1.0)) : color;
+    }
 }

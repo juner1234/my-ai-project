@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvlv4on8snc8r"
-path="res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "f84159a9a2f3cc09d6ddc1e08e217606"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_roughness_9.png"
-dest_files=["res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.s3tc.ctex", "res://.godot/imported/cottage_environment_roughness_9.png-f4497b7581e4d7a6c6fbbb488b53d653.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

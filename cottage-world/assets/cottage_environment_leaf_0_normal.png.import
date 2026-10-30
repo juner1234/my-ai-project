@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7px8dhyyw420"
-path="res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.ctex"
+path.s3tc="res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.s3tc.ctex"
+path.etc2="res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "a5c9fcad498d22359ffffad8a94fa352"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/cottage_environment_leaf_0_normal.png"
-dest_files=["res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.ctex"]
+dest_files=["res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.s3tc.ctex", "res://.godot/imported/cottage_environment_leaf_0_normal.png-69c7d5c29746fd2d8821025fc9b04b5f.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
