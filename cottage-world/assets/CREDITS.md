@@ -27,3 +27,7 @@
 ## Sapling 树形生成工具
 
 新的 Landscape 枫树、田野枫树、垂柳与低灌木，使用 Blender 官方 add_curve_sapling 生成后转为模型网格；工具来源：blender/blender-addons，提交 b42d68627734cb18af0e6f41537063984313a284。原代码/预设版权归 Blender Foundation 等原作者，许可证 GPL-2.0-or-later，完整许可文本见 art/vendor/COPYING；文件来源与校验值见 art/vendor/SAPLING_SOURCE.json。工具许可证不应被误写成 Poly Haven 的 CC0 许可证。新的植物生成参数、摆放、路径和草丛由本项目制作。
+
+## 摄影云层与加密花园
+
+`Floral ` 对象（野花、玫瑰、花穗、茎叶）由本项目脚本原创生成。天空原图为 HDRI Haven / Poly Haven 的 `the_sky_is_on_fire`，CC0；镜像下载自 Google Filament 固定提交，文件原始 SHA256、尺寸与来源链接见 `assets/sky/SOURCES.json`。本环境通过 GitHub 镜像下载，未声称原站访问恢复，也未重新获取原站条款页。白天使用原始摄影云层的蓝白调色版本，黄昏保留柔粉色；原始 HDR 文件未改写。夜景继续使用原有程序天空和暖灯，不把所有时段都描述成摄影天空。

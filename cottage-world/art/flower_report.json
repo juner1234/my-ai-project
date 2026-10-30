@@ -1,0 +1,12 @@
+{
+  "added_blossoms": {
+    "meadow": 1890,
+    "house_borders": 792,
+    "climbing_roses": 342,
+    "balcony_and_window_boxes": 126,
+    "roof_vines": 252
+  },
+  "added_instances": 225,
+  "shared_templates": 6,
+  "palette": "ivory, blush, dusty rose, lavender"
+}

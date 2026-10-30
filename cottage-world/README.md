@@ -138,3 +138,21 @@ blender --background --factory-startup --python art/render_landscape_overview.py
 网页新增 `landscape_overview.jpg` 周边全景，与三时段近景来自同一个模型；没有通过拼接背景图假装扩展。实际外部地形约 400×400 米，精细区域集中在别墅附近，远景仍较简化；不是无限地图，也未验证动态区块加载。布局报告见 `art/landscape_report.json`。
 
 此轮自动检查实际从原庭院外缘向外行走，跨入延伸地形并确认落地状态；曾发现延伸网格名称未被碰撞选择逻辑匹配，现已修正。源场景还检查了路径所有面中心高于地形、旧树阵对象已移除，以及贴图完整内嵌。
+
+## 花量与天空调整
+
+用户这一轮仅要求加密草地花朵、屋旁花境、花藤，并改善天空；移动查看留到之后。
+
+```bash
+blender --background --factory-startup --python art/flower_garden.py
+blender --background --factory-startup --python art/build_villa.py
+blender --background --factory-startup --python art/render_landscape_overview.py
+```
+
+`flower_garden.py` 保留已接受的建筑和景观，只替换自己创建的 `Floral ` 对象。六套共享网格用于草地野花、带茎叶的攀援玫瑰、较高的紫白花穗，覆盖草地、屋旁、花箱、立面和屋顶花藤；实际新增花朵及实例数量见 `art/flower_report.json`。花朵在源模型和 GLB 中，不是画在 JPG 上。
+
+`photographic_sky.py` 用摄影 HDR 云层替换白天/黄昏的程序噪声云。原始 2K HDR 素材来自 HDRI Haven / Poly Haven，通过 Google Filament 镜像获取，固定版本与 SHA256 见 `assets/sky/SOURCES.json`。日景对摄影云层做蓝白色调映射，黄昏保留照片中的柔粉色；预览相机的天空朝向对准照片中的云层区域，原图的建筑和海岸不作为新增模型；这不是已经验证过任意旋转视角的纯天空球。场景照明与夜景暖灯保留原方向，摄影天空不用于凭空增加地形或房屋。
+
+`.blend` 默认保存白天并内嵌 HDR 与材质贴图。GLB 导出花朵几何与材质，但 GLB 不保存 Blender World 天空。当前 Godot 实时工程仍使用先前的程序天空，本轮没有交付移动浏览器，也未声称其画面与 Blender 摄影天空一致；后续做移动查看时需统一天空并实测 GPU 画面与性能。
+
+从头重建时，在 landscape_villa 之后追加 flower_garden，再执行 build_villa 与 render_landscape_overview；重新执行旧场景脚本后也需要重跑花园阶段。
