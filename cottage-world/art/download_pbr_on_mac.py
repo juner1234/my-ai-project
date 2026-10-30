@@ -7,11 +7,26 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import urllib.parse
-import urllib.request
 import zipfile
 
 API='https://api.polyhaven.com'
+def download_bytes(url,proxy):
+    # Use curl's configured trust store instead of a separate Python CA bundle.
+    # TLS and redirect verification stay enabled; never use --insecure/-k.
+    result=subprocess.run([
+        '/usr/bin/curl','--fail','--silent','--show-error','--location',
+        '--proto','=https','--proto-redir','=https',
+        '--connect-timeout','20','--max-time','120',
+        '--max-filesize',str(64*1024*1024),
+        '--proxy',proxy,'--user-agent','MosslightCottageStudy/1.0',url
+    ],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=140)
+    if result.returncode:
+        raise RuntimeError('系统 curl 下载失败：'+result.stderr.decode('utf-8',errors='replace').strip()[-1200:])
+    if len(result.stdout)>64*1024*1024:raise RuntimeError('Unexpected asset larger than 64 MiB')
+    return result.stdout
+
 def leaves(value,keys=()):
     if isinstance(value,dict):
         if isinstance(value.get('url'),str): yield keys,value
@@ -39,13 +54,8 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--proxy',default='http://127.0.0.1:7900')
     args=p.parse_args()
-    opener=urllib.request.build_opener(urllib.request.ProxyHandler({'http':args.proxy,'https':args.proxy}))
     def get(url):
-        request=urllib.request.Request(url,headers={'User-Agent':'MosslightCottageStudy/1.0'})
-        with opener.open(request,timeout=90) as response:
-            data=response.read(64*1024*1024+1)
-        if len(data)>64*1024*1024:raise RuntimeError('Unexpected asset larger than 64 MiB')
-        return data
+        return download_bytes(url,args.proxy)
     print('正在读取 Poly Haven 官方材质目录……',flush=True)
     catalog=json.loads(get(API+'/assets?t=textures'))
     output=Path.home()/'Downloads'/('cottage-materials-'+datetime.datetime.now().strftime('%Y%m%d-%H%M%S'))

@@ -24,7 +24,7 @@
 
 ## 用 Mac 网络补齐高清材质
 
-`art/download_pbr_on_mac.py` 使用 Python 标准库，通过已确认的 Clash HTTP 混合端口 7900 访问官方 Poly Haven 目录，选择木纹、灰泥和苔藓类的 2k 颜色/法线/粗糙度贴图。不是生成模型或消耗 AI 额度的程序。
+`art/download_pbr_on_mac.py` 使用 Python 标准库整理数据，并调用 Mac 的 `/usr/bin/curl` 下载，通过已确认的 Clash HTTP 混合端口 7900 访问官方 Poly Haven 目录，选择木纹、灰泥和苔藓类的 2k 颜色/法线/粗糙度贴图。避免依赖 Python 单独的证书库，仍保持 TLS 与文件校验。不是生成模型或消耗 AI 额度的程序。
 
 文件仅保存到 Mac 的 Downloads 下新建的带时间目录，不修改现有项目、Git 分支或密钥。保留官方来源、可用的 MD5 校验及 SHA256 记录，分成小于附件限制的 ZIP 文件，便于上传回聊天。使用前已经过语法和离线 API 数据选择测试；本云环境无法访问该 API，所以没有把端到端下载标成已验证。
 
