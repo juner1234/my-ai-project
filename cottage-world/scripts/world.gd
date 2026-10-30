@@ -121,7 +121,7 @@ func _create_stair_ramp() -> void:
 func _add_garden_motion(root: Node) -> void:
 	if root is MeshInstance3D and root.mesh != null:
 		var title := str(root.name).to_lower().replace("_", " ")
-		if title.begins_with("detail curved foliage") or title.begins_with("villa curved foliage") or title.begins_with("forest roof living foliage") or title.begins_with("forest shrub") or title.begins_with("forest fern") or title.begins_with("forest broadleaf") or title.begins_with("forest tree instance"):
+		if title.begins_with("landscape meadow tuft") or (title.begins_with("landscape ") and title.contains("leaves")) or title.begins_with("detail curved foliage") or title.begins_with("villa curved foliage") or title.begins_with("forest roof living foliage") or title.begins_with("forest shrub") or title.begins_with("forest fern") or title.begins_with("forest broadleaf") or title.begins_with("forest tree instance"):
 			for index in root.mesh.get_surface_count():
 				var original = root.get_active_material(index)
 				if original != null and str(original.resource_name).begins_with("Woodland bark"): continue
@@ -140,7 +140,7 @@ func _add_garden_motion(root: Node) -> void:
 func _add_collisions(root: Node) -> void:
 	if root is MeshInstance3D:
 		var label_name := str(root.name).to_lower().replace("_", " ")
-		if label_name.begins_with("terrain") or label_name.begins_with("foundation") or label_name.contains("wall") or label_name.contains("floor") or label_name.contains("handrail") or label_name.contains("spindle") or label_name.contains("stair guard"):
+		if label_name.contains("terrain") or label_name.begins_with("foundation") or label_name.contains("wall") or label_name.contains("floor") or label_name.contains("handrail") or label_name.contains("spindle") or label_name.contains("stair guard") or label_name.contains("branching wood"):
 			root.create_trimesh_collision()
 	for child in root.get_children():
 		_add_collisions(child)
@@ -400,12 +400,18 @@ func _self_test() -> void:
 	player.velocity = Vector3.ZERO
 	for i in range(100): await get_tree().physics_frame
 	assert(player.position.y > 4.25 and player.position.z > 3.8 and player.position.z < 4.95, "Balcony entry or protective railing failed")
+	# Walk beyond the original 40m garden onto the extended outdoor terrain.
+	player.position = Vector3(-5, 1, 18)
+	player.velocity = Vector3.ZERO
+	test_drive = Vector3(0, 0, 1)
+	for i in range(240): await get_tree().physics_frame
+	assert(player.position.z > 25 and player.position.y > -1 and player.is_on_floor(), "Outdoor terrain extension is not walkable")
 	for mode in range(3):
 		_set_sky_mode(mode)
 		assert(sky_mode == mode and sky_picker.selected == mode)
 		assert(is_equal_approx(sunlight.light_energy, [1.6, 0.85, 0.18][mode]))
 		assert(is_equal_approx(float(sky_material.get_shader_parameter("night_amount")), 1.0 if mode == 2 else 0.0))
 	_set_sky_mode(0)
-	print("VILLA_SELF_TEST_PASSED: upper floor, stair ascent/descent, guarded balcony and three sky modes")
+	print("VILLA_SELF_TEST_PASSED: upper floor, stair ascent/descent, guarded balcony, outdoor extension and three sky modes")
 	print("COTTAGE_SELF_TEST_PASSED: geometry, props, edit, persistence, wall collision and entry")
 	get_tree().quit()

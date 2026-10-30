@@ -3,3 +3,8 @@
 *.blend2
 *.tmp
 __pycache__/
+
+landscape_study_*.jpg
+landscape_study_*.jpg.import
+landscape_overview_study.jpg
+landscape_overview_study.jpg.import

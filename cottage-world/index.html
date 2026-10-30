@@ -1,23 +1,26 @@
 <!doctype html>
 <html lang="zh-CN">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>苔光别墅 · 林间时光</title>
+<title>苔光别墅 · 庭院与山野</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;background:#151c1b;color:#e7e9df}*{box-sizing:border-box}body{margin:0;transition:background .4s}main{max-width:1160px;margin:auto;padding:36px 24px}.eyebrow{letter-spacing:.22em;color:#a9bdb2;font-size:12px}h1{font:400 clamp(32px,6vw,52px)/1.3 Georgia,"Songti SC",serif;margin:16px 0}p{color:#bac6bc;line-height:1.8;max-width:800px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}button{font:inherit;border:1px solid #4c6056;background:transparent;color:#dce4d7;border-radius:30px;padding:10px 23px;cursor:pointer}button[aria-pressed=true]{background:#d0dabe;color:#202d25;border-color:#d0dabe}button:focus-visible,a:focus-visible{outline:2px solid #f0d28e;outline-offset:4px}figure{margin:0;border-radius:8px;overflow:hidden;background:#0d1416}img{display:block;width:100%;height:auto;max-height:85vh;object-fit:contain}figcaption{padding:15px 20px;color:#aab8ad;font-size:13px;line-height:1.7}.features{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin:22px 0}.features span{border-bottom:1px solid #415448;padding:5px 0;margin-right:12px}a{color:#d8e4c6;text-underline-offset:4px}nav{display:flex;gap:22px;flex-wrap:wrap;margin:28px 0;font-size:14px}footer{border-top:1px solid #34443c;margin-top:30px;padding-top:18px;color:#9cafa2;font-size:13px;line-height:1.8}.note{font-size:13px}#mode-status{color:#aebfae;font-size:13px}@media(max-width:650px){main{padding:25px 16px}button{padding:10px 18px}}
 </style>
 <main>
 <div class="eyebrow">MOSSLIGHT VILLA / WORK IN PROGRESS</div>
-<h1>苔光别墅 · 林间时光</h1>
-<p>两层木屋、覆满苔草的屋顶、临花阳台和湖畔花园。树丛与远处的林地把小屋环抱起来。选一种光线，看看这个小世界在一天中的不同模样。</p>
+<h1>苔光别墅 · 庭院与山野</h1>
+<p>别墅留在开阔的庭院里，树木沿湖岸和坡地成丛生长，小路继续通往远处的草坡。选一种光线，看看这个小世界在一天中的不同模样。</p>
 <div class="controls" role="group" aria-label="选择预览时段">
 <button type="button" data-mode="day" aria-pressed="true">蓝天</button><button type="button" data-mode="dusk" aria-pressed="false">黄昏</button><button type="button" data-mode="night" aria-pressed="false">夜景</button>
 </div>
-<figure><a id="full-image" href="villa_day.jpg?v=forest03"><img id="scene-image" src="villa_day.jpg?v=forest03" alt="蓝天下的两层森系别墅、阳台花箱和湖畔花园"></a><figcaption id="caption">蓝天 · 点击图片查看完整渲染</figcaption></figure>
+<figure><a id="full-image" href="villa_day.jpg?v=landscape04"><img id="scene-image" src="villa_day.jpg?v=landscape04" alt="蓝天下的两层森系别墅、阳台花箱和湖畔花园"></a><figcaption id="caption">蓝天 · 点击图片查看完整渲染</figcaption></figure>
 <p id="mode-status" role="status" aria-live="polite"></p>
 <div class="features"><span>两层室内与楼梯</span><span>阳台与花箱</span><span>屋顶苔草与垂藤</span><span>林地、蕨类与湖边花丛</span><span>三套天空与光照</span></div>
+<section aria-labelledby="surroundings-title"><h2 id="surroundings-title">庭院之外</h2>
+<figure><a href="landscape_overview.jpg?v=landscape04"><img src="landscape_overview.jpg?v=landscape04" alt="同一模型的周边全景，显示别墅、湖边、连续草坡与向外延伸的小路" loading="lazy"></a><figcaption>同一模型的周边全景 · 点击放大</figcaption></figure>
+<p class="note">当前外部地形约 400 × 400 米。细节主要集中在别墅庭院、湖边和附近步道，远处仍是较简化的景观，还不是无限延伸的地图。</p></section>
 <p class="note">这三张图直接渲染自当前可下载的三维模型，造型与模型一致。网页切换的是静态渲染，进入模型后不会自动增加细节。Godot 工程内也可切换实时天空、阳光、雾色与灯光，并能走上二楼；本网页尚不提供走动。正式人物及参考图级别的写实细节仍未完成。</p>
-<noscript><p>请直接查看：<a href="villa_day.jpg?v=forest03">蓝天图</a> · <a href="villa_dusk.jpg?v=forest03">黄昏图</a> · <a href="villa_night.jpg?v=forest03">夜景图</a></p></noscript>
-<nav><a href="assets/cottage_environment.glb?v=forest03" download>下载三维场景 GLB</a><a href="cottage_source.blend?v=forest03" download>下载可编辑 Blender 源文件</a><a href="https://github.com/juner1234/my-ai-project/tree/video/bring-the-star-home/cottage-world">工程与运行说明</a></nav>
+<noscript><p>请直接查看：<a href="villa_day.jpg?v=landscape04">蓝天图</a> · <a href="villa_dusk.jpg?v=landscape04">黄昏图</a> · <a href="villa_night.jpg?v=landscape04">夜景图</a></p></noscript>
+<nav><a href="assets/cottage_environment.glb?v=landscape04" download>下载三维场景 GLB</a><a href="cottage_source.blend?v=landscape04" download>下载可编辑 Blender 源文件</a><a href="https://github.com/juner1234/my-ai-project/tree/video/bring-the-star-home/cottage-world">工程与运行说明</a></nav>
 <footer>Godot 操作：WASD 移动，鼠标转向，E 开门，Tab 编辑家具；天空选择框或数字键 1 / 2 / 3 切换时段。<br>材质：Poly Haven，CC0。其他来源见工程 assets/CREDITS.md。</footer>
 </main>
 <script>
@@ -26,8 +29,8 @@ const image=document.querySelector('#scene-image'),link=document.querySelector('
 let pending=0;
 for(const button of document.querySelectorAll('[data-mode]'))button.addEventListener('click',()=>{
  const mode=button.dataset.mode,ticket=++pending,preload=new Image();status.textContent='正在载入'+labels[mode]+'预览…';
- preload.onload=()=>{if(ticket!==pending)return;image.src=preload.src;image.alt=labels[mode]+'中的两层森系别墅与花园';link.href='villa_'+mode+'.jpg?v=forest03';caption.textContent=labels[mode]+' · 点击图片查看完整渲染';status.textContent='已切换为'+labels[mode]+'预览';for(const item of document.querySelectorAll('[data-mode]'))item.setAttribute('aria-pressed',String(item===button));};
- preload.onerror=()=>{if(ticket===pending)status.textContent='图片未能载入，请刷新后重试。';};preload.src='villa_'+mode+'.jpg?v=forest03';
+ preload.onload=()=>{if(ticket!==pending)return;image.src=preload.src;image.alt=labels[mode]+'中的两层森系别墅与花园';link.href='villa_'+mode+'.jpg?v=landscape04';caption.textContent=labels[mode]+' · 点击图片查看完整渲染';status.textContent='已切换为'+labels[mode]+'预览';for(const item of document.querySelectorAll('[data-mode]'))item.setAttribute('aria-pressed',String(item===button));};
+ preload.onerror=()=>{if(ticket===pending)status.textContent='图片未能载入，请刷新后重试。';};preload.src='villa_'+mode+'.jpg?v=landscape04';
 });
 </script>
 </html>

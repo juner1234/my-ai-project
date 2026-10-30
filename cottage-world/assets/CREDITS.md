@@ -23,3 +23,7 @@
 ## 林间环境补充
 
 `Forest ` 对象的树木、弯曲叶片、蕨类、灌木、屋顶苔草和扩展地形由本项目脚本原创生成。`assets/pbr/generated_meadow.png` 为本项目确定性生成的草地底色纹理；不是第三方下载材质。树木共享网格。三时段预览直接渲染自这些模型；远景使用深度雾合成，天空为程序化云层。
+
+## Sapling 树形生成工具
+
+新的 Landscape 枫树、田野枫树、垂柳与低灌木，使用 Blender 官方 add_curve_sapling 生成后转为模型网格；工具来源：blender/blender-addons，提交 b42d68627734cb18af0e6f41537063984313a284。原代码/预设版权归 Blender Foundation 等原作者，许可证 GPL-2.0-or-later，完整许可文本见 art/vendor/COPYING；文件来源与校验值见 art/vendor/SAPLING_SOURCE.json。工具许可证不应被误写成 Poly Haven 的 CC0 许可证。新的植物生成参数、摆放、路径和草丛由本项目制作。

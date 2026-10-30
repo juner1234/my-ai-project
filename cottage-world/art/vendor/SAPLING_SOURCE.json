@@ -1,0 +1,37 @@
+{
+  "repository": "blender/blender-addons",
+  "commit": "b42d68627734cb18af0e6f41537063984313a284",
+  "code_license": "GPL-2.0-or-later",
+  "files": [
+    {
+      "file": "add_curve_sapling/__init__.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/__init__.py",
+      "sha256": "7266d098db3a63c97e5d993045c5adfafce315cc580b6b4a3a3511bbf91f0ef8"
+    },
+    {
+      "file": "add_curve_sapling/utils.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/utils.py",
+      "sha256": "1eed2ded55f783f4fbf69caea91763972d916f59b869a3b55a6a1324a09d4382"
+    },
+    {
+      "file": "add_curve_sapling/presets/japanese_maple.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/presets/japanese_maple.py",
+      "sha256": "1c699e0ddab0500ab12c194162ec1496bcab77d323f3ba53cc6a3bb5fcee56c2"
+    },
+    {
+      "file": "add_curve_sapling/presets/weeping_willow.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/presets/weeping_willow.py",
+      "sha256": "6446ea8e110fa642b7523c62ad2c903e438b7b2801f839b917e2208616eaa9af"
+    },
+    {
+      "file": "add_curve_sapling/presets/white_birch.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/presets/white_birch.py",
+      "sha256": "174f87a7eb53b4a7acb6b92a21da266b9ceff68ca859f159e674ffe315597a2e"
+    },
+    {
+      "file": "add_curve_sapling/presets/small_maple.py",
+      "url": "https://raw.githubusercontent.com/blender/blender-addons/b42d68627734cb18af0e6f41537063984313a284/add_curve_sapling/presets/small_maple.py",
+      "sha256": "a64e5d22ebc1606693178dfb62f337b984c29c9d07cad18ddca600ac7e9cd5e5"
+    }
+  ]
+}

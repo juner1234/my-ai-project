@@ -200,6 +200,8 @@ if scene.get('forest_garden'):
  output=next(n for n in cn if n.type=='COMPOSITE');cl.new(mist.outputs[0],output.inputs[0])
  scene.cycles.samples=96
 modes=[('day',42,1.7,.30,(1,.96,.87)),('dusk',5,.8,.18,(1,.55,.28)),('night',-12,.22,.22,(.42,.56,1))]
+if '--draft' in sys.argv:
+ scene.cycles.samples=24;scene.render.resolution_percentage=65
 if '--day-only' in sys.argv:modes=modes[:1]
 if '--remaining-modes' in sys.argv:modes=modes[1:]
 for mode,elevation,energy,strength,color in modes:
@@ -221,8 +223,8 @@ for mode,elevation,energy,strength,color in modes:
   scene.view_settings.exposure=.3
  else:
   links.new(sky.outputs['Color'],background.inputs['Color']);scene.view_settings.exposure=-1.1
- scene.render.filepath=str(ROOT/f'villa_{mode}.jpg')
- if mode=='day':
+ scene.render.filepath=str(ROOT/(f'landscape_study_{mode}.jpg' if '--draft' in sys.argv else f'villa_{mode}.jpg'))
+ if mode=='day' and '--draft' not in sys.argv:
   bpy.ops.file.make_paths_relative();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'cottage_source.blend'),compress=True)
   bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/cottage_environment.glb'),export_format='GLB',export_cameras=False,export_lights=False)
  bpy.ops.render.render(write_still=True)

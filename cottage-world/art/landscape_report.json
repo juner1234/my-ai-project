@@ -1,0 +1,46 @@
+{
+  "hero_trees": 13,
+  "shared_meadow_clumps": 1703,
+  "tree_forms": [
+    "spreading Japanese maple",
+    "field maple",
+    "lakeside weeping willow"
+  ],
+  "shrub_groups": 16,
+  "detailed_terrain_extent_m": 400,
+  "path_points": [
+    [
+      -1.0499999523162842,
+      -12.100000381469727
+    ],
+    [
+      -5.0,
+      -18.0
+    ],
+    [
+      -15.0,
+      -23.0
+    ],
+    [
+      -24.0,
+      -12.0
+    ],
+    [
+      -22.0,
+      8.0
+    ],
+    [
+      -27.0,
+      29.0
+    ],
+    [
+      -43.0,
+      58.0
+    ],
+    [
+      -58.0,
+      91.0
+    ]
+  ],
+  "infinite_world": false
+}

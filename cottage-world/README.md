@@ -104,7 +104,9 @@ Godot 左上角新增天空选择框，数字键 1/2/3 分别切换蓝天、黄�
 
 自动验证覆盖上下楼、二楼阳台进出与护栏阻挡、三时段参数与 UI 同步，以及原有进屋/编辑/存档检查。网页时段按钮已在 Chromium 桌面和手机布局中实际点击验证；它展示静态 Blender 渲染，不能行走。Godot 实时天空着色器的 GPU 画面与 Mac 帧率尚未实测。
 
-## 林间环境细化
+## 上一轮林间环境研究
+
+这一轮的重复树形与分布已被用户否定，当前最终文件由下方“独栋别墅景观重排”覆盖；不要把 forest_report 的树阵当作最终布局。
 
 `art/forest_garden.py` 直接修改实际 Blender 场景：增加跟随坡面的立体苔藓床、屋顶低草与垂藤、曲叶阔叶树、灌木和蕨类，并把原本的方形地块接到起伏地形与远景。树木共享三套网格，避免每一棵都重复导出整套几何。统计见 `art/forest_report.json`。
 
@@ -116,3 +118,23 @@ blender --background --factory-startup --python art/build_villa.py -- --render-o
 该脚本可重复执行：替换 `Forest ` 对象，保留别墅、家具和室内结构。先执行 build_villa 创建别墅，之后才运行 forest_garden。从零生成的顺序在原流程最后追加 forest_garden → build_villa（重新导出和渲染）。所有三维植被和地形都在 GLB 与内嵌贴图的 Blender 源文件中；不是只改预览图。
 
 三种时段继续使用同机位。天空云层提高可见度，远处增加基于深度的薄雾合成，使树林、地形与背景过渡柔和；夜晚保留暖色灯具。Godot 端保持三种天空与距离雾，并对新增叶片接入轻微风动。静态渲染和实时画面仍受不同渲染器、设置与设备影响；不会把预览称作独立概念图，也不承诺实际运行会自动更精细。
+
+## 独栋别墅景观重排
+
+`art/landscape_villa.py` 移除上一轮重复的 Forest 树木与球状灌木，改用有自然分枝的枫树、田野枫树、湖边垂柳，按几处不对称的景观组团摆放，保留开阔庭院、湖边视线和草坡。新草丛共享网格并逐渐变稀，替换原来的方形草坪边界；小路从庭院外继续弯曲通往远处。植物和小路高度用实际地形网格的射线交点计算，避免脚部漂浮与路径陷入坡面。
+
+树木生成工具为 Blender 官方 Sapling，固定源码版本及 SHA256 记录在 `art/vendor/SAPLING_SOURCE.json`。工具代码/预设为 GPL-2.0-or-later，原版权声明和完整许可证在 vendor 中保留；工具许可证与输出场景素材的来源说明见 assets/CREDITS.md。
+
+从已有别墅与植被阶段继续：
+
+```bash
+blender --background --factory-startup --python art/landscape_villa.py
+blender --background --factory-startup --python art/build_villa.py
+blender --background --factory-startup --python art/render_landscape_overview.py
+```
+
+当前最终完整顺序：build_cottage → bake_materials → apply_pbr_materials → refine_cottage → build_villa → forest_garden → landscape_villa → build_villa（最终导出/三时段）→ render_landscape_overview。运行基础/旧植被脚本后必须再执行 landscape_villa，才能保留当前尝试的布局方向。
+
+网页新增 `landscape_overview.jpg` 周边全景，与三时段近景来自同一个模型；没有通过拼接背景图假装扩展。实际外部地形约 400×400 米，精细区域集中在别墅附近，远景仍较简化；不是无限地图，也未验证动态区块加载。布局报告见 `art/landscape_report.json`。
+
+此轮自动检查实际从原庭院外缘向外行走，跨入延伸地形并确认落地状态；曾发现延伸网格名称未被碰撞选择逻辑匹配，现已修正。源场景还检查了路径所有面中心高于地形、旧树阵对象已移除，以及贴图完整内嵌。
