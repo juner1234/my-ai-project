@@ -1,0 +1,153 @@
+{
+  "name": "DanceFX",
+  "version": "0.1.0",
+  "sourceVideo": "input/dance.MP4",
+  "nextNodeId": 4,
+  "nodes": [
+    {
+      "id": "FX-002",
+      "start": 3,
+      "duration": 2,
+      "trackId": "T1",
+      "creative": {
+        "description": "",
+        "followTarget": "none",
+        "annotations": [
+          {
+            "id": "ann-1792117903330-552665",
+            "nodeId": "FX-002",
+            "tool": "pen",
+            "points": [
+              {
+                "x": 0.4066814844749781,
+                "y": 0.7433776217932648
+              },
+              {
+                "x": 0.27305179497541593,
+                "y": 0.4492353973426924
+              },
+              {
+                "x": 0.3635751330235064,
+                "y": 0.31018634578424
+              }
+            ],
+            "color": "#ff4d6d",
+            "width": 0.004,
+            "createdAt": "2026-10-16T02:31:43.330Z",
+            "followTarget": "none",
+            "description": ""
+          }
+        ],
+        "updatedAt": "2026-10-16T02:31:43.330Z"
+      },
+      "ai": {
+        "designProposal": "",
+        "versions": [],
+        "adoptedVersionId": null,
+        "proposals": []
+      },
+      "reviewStatus": "draft",
+      "createdAt": "2026-10-15T10:31:31.420Z",
+      "updatedAt": "2026-10-16T02:31:43.331Z"
+    },
+    {
+      "id": "FX-003",
+      "start": 6.967,
+      "duration": 6.016,
+      "trackId": "T1",
+      "creative": {
+        "description": "",
+        "followTarget": "none",
+        "annotations": [
+          {
+            "id": "ann-1792121725142-521720",
+            "nodeId": "FX-003",
+            "tool": "pen",
+            "points": [
+              {
+                "x": 0.2989156058462989,
+                "y": 0.7701178240160441
+              },
+              {
+                "x": 0.26874115983026875,
+                "y": 0.5989805297902565
+              },
+              {
+                "x": 0.4368559304910083,
+                "y": 0.28879418400601653
+              },
+              {
+                "x": 0.3678857681686536,
+                "y": 0.1818333751148993
+              }
+            ],
+            "color": "#ff4d6d",
+            "width": 0.004,
+            "createdAt": "2026-10-16T03:35:25.142Z",
+            "followTarget": "none",
+            "description": ""
+          },
+          {
+            "id": "ann-1792121728137-826995",
+            "nodeId": "FX-003",
+            "tool": "arrow",
+            "points": [
+              {
+                "x": 0.7299791203610156,
+                "y": 0.7166374195704855
+              },
+              {
+                "x": 0.8205024584091062,
+                "y": 0.31553438622879587
+              }
+            ],
+            "color": "#ff4d6d",
+            "width": 0.004,
+            "createdAt": "2026-10-16T03:35:28.137Z",
+            "followTarget": "none",
+            "description": ""
+          },
+          {
+            "id": "ann-1792121730941-22252",
+            "nodeId": "FX-003",
+            "tool": "ellipse",
+            "points": [
+              {
+                "x": 0.3678857681686536,
+                "y": 0.2941422244505724
+              },
+              {
+                "x": 0.7256684852158686,
+                "y": 0.7112893791259296
+              }
+            ],
+            "color": "#ff4d6d",
+            "width": 0.004,
+            "createdAt": "2026-10-16T03:35:30.941Z",
+            "followTarget": "none",
+            "description": ""
+          }
+        ],
+        "updatedAt": "2026-10-16T03:35:30.941Z"
+      },
+      "ai": {
+        "designProposal": "",
+        "versions": [],
+        "adoptedVersionId": null,
+        "proposals": []
+      },
+      "reviewStatus": "draft",
+      "createdAt": "2026-10-16T01:55:31.046Z",
+      "updatedAt": "2026-10-16T03:35:30.941Z"
+    }
+  ],
+  "tracks": [
+    "T1",
+    "T2"
+  ],
+  "ui": {
+    "selectedNodeId": "FX-003",
+    "lastTime": 8.033333333333333
+  },
+  "updatedAt": "2026-10-16T03:45:25.011Z"
+}

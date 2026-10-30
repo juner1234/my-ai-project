@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>DanceFX 引擎验收 · 双源同帧</title>
+<style>
+  body{margin:0;background:#14161b;color:#e9ebf1;font:14px -apple-system,sans-serif}
+  header{padding:10px 14px;background:#20232b;border-bottom:1px solid #363a45}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}
+  .pane{background:#000;position:relative;border:1px solid #363a45;border-radius:6px;overflow:hidden}
+  canvas{display:block;width:100%;height:auto}
+  .tag{position:absolute;top:6px;left:8px;background:#000a;padding:2px 8px;border-radius:6px;font-weight:700}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 14px}
+  button{background:#343946;color:#f2f3f8;border:1px solid #515867;padding:6px 10px;border-radius:6px;cursor:pointer}
+  input[type=range]{flex:1;min-width:200px}
+  pre{background:#0f1116;border:1px solid #262a33;border-radius:6px;margin:8px 14px;padding:10px;max-height:30vh;overflow:auto;white-space:pre-wrap}
+  .ok{color:#06d6a0}.bad{color:#ff5d5d}.dim{color:#9aa3b2}
+</style>
+</head>
+<body>
+<header><strong>DanceFX 引擎验收</strong> <span class="dim">生产 WebCodecsEngine · 左=原片(无音轨) 右=成片(带音轨) · 帧号烧录</span></header>
+<div class="wrap">
+  <div class="pane"><canvas id="cvL" width="1280" height="720"></canvas><div class="tag">LEFT</div></div>
+  <div class="pane"><canvas id="cvR" width="1280" height="720"></canvas><div class="tag">RIGHT</div></div>
+</div>
+<div class="bar">
+  <button id="play">▶ 播放</button>
+  <button id="prev">⏮ -1</button>
+  <button id="next">+1 ⏭</button>
+  <span>帧</span><input id="frame" type="range" min="0" max="299" value="0">
+  <span id="ro" class="dim">-</span>
+</div>
+<pre id="log"></pre>
+<audio id="audL"></audio>
+<audio id="audR"></audio>
+<script type="module" src="/src/stage-test.ts"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "current": "2c1889a03aaf2ed0df32c8b6caf8cad21410c5a13f45d6fe1ed96d3e4a17f0c5",
+  "projects": {
+    "2c1889a03aaf2ed0df32c8b6caf8cad21410c5a13f45d6fe1ed96d3e4a17f0c5": {
+      "key": "2c1889a03aaf2ed0df32c8b6caf8cad21410c5a13f45d6fe1ed96d3e4a17f0c5",
+      "label": "input/dance.MP4",
+      "sourcePath": "input/dance.MP4",
+      "project": {
+        "name": "DanceFX",
+        "version": "0.1.0",
+        "sourceVideo": "input/dance.MP4",
+        "nextNodeId": 6,
+        "nodes": [
+          {
+            "id": "FX-002",
+            "start": 3,
+            "duration": 2,
+            "trackId": "T1",
+            "creative": {
+              "description": "",
+              "followTarget": "left_wrist",
+              "annotations": [
+                {
+                  "id": "ann-1792117903330-552665",
+                  "nodeId": "FX-002",
+                  "tool": "pen",
+                  "points": [
+                    {
+                      "x": 0.4066814844749781,
+                      "y": 0.7433776217932648
+                    },
+                    {
+                      "x": 0.27305179497541593,
+                      "y": 0.4492353973426924
+                    },
+                    {
+                      "x": 0.3635751330235064,
+                      "y": 0.31018634578424
+                    }
+                  ],
+                  "color": "#ff4d6d",
+                  "width": 0.004,
+                  "createdAt": "2026-10-16T02:31:43.330Z",
+                  "followTarget": "none",
+                  "description": ""
+                }
+              ],
+              "updatedAt": "2026-10-16T03:57:26.370Z"
+            },
+            "ai": {
+              "designProposal": "",
+              "versions": [],
+              "adoptedVersionId": null,
+              "proposals": []
+            },
+            "reviewStatus": "draft",
+            "createdAt": "2026-10-15T10:31:31.420Z",
+            "updatedAt": "2026-10-16T03:57:26.370Z"
+          },
+          {
+            "id": "FX-004",
+            "start": 9.833,
+            "duration": 2,
+            "trackId": "T2",
+            "creative": {
+              "description": "",
+              "followTarget": "body_center",
+              "annotations": [
+                {
+                  "id": "ann-1792123072608-595266",
+                  "nodeId": "FX-004",
+                  "tool": "pen",
+                  "points": [
+                    {
+                      "x": 0.66282750724052,
+                      "y": 0.1978774964485669
+                    },
+                    {
+                      "x": 0.792146561594935,
+                      "y": 0.4331912760090248
+                    },
+                    {
+                      "x": 0.7016232235468445,
+                      "y": 0.7861619453497117
+                    }
+                  ],
+                  "color": "#ff4d6d",
+                  "width": 0.004,
+                  "createdAt": "2026-10-16T03:57:52.608Z",
+                  "followTarget": "body_center",
+                  "description": ""
+                }
+              ],
+              "updatedAt": "2026-10-16T03:57:52.608Z"
+            },
+            "ai": {
+              "designProposal": "",
+              "versions": [],
+              "adoptedVersionId": null,
+              "proposals": []
+            },
+            "reviewStatus": "draft",
+            "createdAt": "2026-10-16T03:57:37.798Z",
+            "updatedAt": "2026-10-16T03:57:52.608Z"
+          },
+          {
+            "id": "FX-005",
+            "start": 16.3,
+            "duration": 2,
+            "trackId": "T3",
+            "creative": {
+              "description": "",
+              "followTarget": "right_wrist",
+              "annotations": [
+                {
+                  "id": "ann-1792123100551-719409",
+                  "nodeId": "FX-005",
+                  "tool": "arrow",
+                  "points": [
+                    {
+                      "x": 0.914560770156438,
+                      "y": 0.5605653428884244
+                    },
+                    {
+                      "x": 0.7707982350581628,
+                      "y": 0.26117248930028863
+                    }
+                  ],
+                  "color": "#ff4d6d",
+                  "width": 0.004,
+                  "createdAt": "2026-10-16T03:58:20.551Z",
+                  "followTarget": "right_wrist",
+                  "description": ""
+                }
+              ],
+              "updatedAt": "2026-10-16T03:58:20.551Z"
+            },
+            "ai": {
+              "designProposal": "",
+              "versions": [],
+              "adoptedVersionId": null,
+              "proposals": []
+            },
+            "reviewStatus": "draft",
+            "createdAt": "2026-10-16T03:58:09.987Z",
+            "updatedAt": "2026-10-16T03:58:20.552Z"
+          }
+        ],
+        "tracks": [
+          "T1",
+          "T2",
+          "T3"
+        ],
+        "ui": {
+          "selectedNodeId": "FX-005",
+          "lastTime": 16.3
+        },
+        "updatedAt": "2026-10-16T09:39:53.970Z"
+      },
+      "updatedAt": "2026-10-16T09:39:53.970Z"
+    },
+    "b79a4aed472c5c30c4868647decd9a87f6e9122d0620f528bf9f47ca8dd7f804": {
+      "key": "b79a4aed472c5c30c4868647decd9a87f6e9122d0620f528bf9f47ca8dd7f804",
+      "label": "CC6CCD41-7665-48DC-845C-76A9477EA24B.MOV",
+      "sourcePath": "",
+      "project": {
+        "name": "DanceFX · CC6CCD41-7665-48DC-845C-76A9477EA24B.MOV",
+        "version": "0.1.0",
+        "sourceVideo": "CC6CCD41-7665-48DC-845C-76A9477EA24B.MOV",
+        "nextNodeId": 1,
+        "nodes": [],
+        "tracks": [
+          "T1",
+          "T2"
+        ],
+        "ui": {
+          "selectedNodeId": null,
+          "lastTime": 0
+        },
+        "updatedAt": "2026-10-16T03:55:14.022Z"
+      },
+      "updatedAt": "2026-10-16T03:55:14.022Z"
+    },
+    "1d075e048e3297d7b37192961fc9ca150320c4d0432fec0c95b2525d852998ac": {
+      "key": "1d075e048e3297d7b37192961fc9ca150320c4d0432fec0c95b2525d852998ac",
+      "label": "pose-preview.mp4",
+      "sourcePath": "",
+      "project": {
+        "name": "DanceFX · pose-preview.mp4",
+        "version": "0.1.0",
+        "sourceVideo": "pose-preview.mp4",
+        "nextNodeId": 1,
+        "nodes": [],
+        "tracks": [
+          "T1",
+          "T2"
+        ],
+        "ui": {
+          "selectedNodeId": null,
+          "lastTime": 0
+        },
+        "updatedAt": "2026-10-16T03:55:47.788Z"
+      },
+      "updatedAt": "2026-10-16T03:55:47.788Z"
+    }
+  }
+}
